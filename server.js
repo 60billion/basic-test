@@ -3,6 +3,12 @@ var bodyparser = require('body-parser');
 var logger = require('morgan');
 var methodOverride = require('method-override');
 var cors = require('cors');
+//서버구동
+var app = express();
+app.use(logger('dev'));
+app.use(bodyparser.json());
+app.use(methodOverride());
+app.use(cors());
 
 //데이터베이스 접속
 var mysql = require('mysql');
@@ -41,12 +47,7 @@ var upload = multer({
     })
 });
 
-//서버구동
-var app = express();
-app.use(logger('dev'));
-app.use(bodyparser.json());
-app.use(methodOverride());
-app.use(cors());
+
 
 //Gets or Posts
 app.post('/getReview',upload.array('reviewImage'),function(req,res,next){
