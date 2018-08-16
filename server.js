@@ -54,7 +54,7 @@ app.post('/getReview',upload.array('reviewImage'),function(req,res,next){
 })
 
 
-app.listen(process.env.PORT || 8080, function(){
+app.listen(8080, function(){
     console.log("connected server!!")
 })
 
