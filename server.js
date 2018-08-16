@@ -49,6 +49,10 @@ app.use(methodOverride());
 app.use(cors());
 
 //Gets or Posts
+app.get('/',function(req,res){
+	res.send("hello world");
+})
+
 app.post('/getReview',upload.array('reviewImage'),function(req,res,next){
     console.log('uploaded '+req.files.originalname+" files"+req.files[0]);
 })
