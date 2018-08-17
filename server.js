@@ -55,11 +55,21 @@ app.get('/',function(req,res){
 })
 
 app.post('/getReview',upload.array('reviewImage'),function(req,res,next){
-    console.log('uploaded '+req.files.originalname+" files"+req.files[0]);
+    console.log('uploaded '+req.files[0].fieldname+" files"+req.files[0].originalname);
+    console.dir(req.files);
+	var link = req.files[0].location;
+	var fileName = req.files[0].originalname;
+	var title = req.body.title;
+	var review = req.body.review;
+	console.log(link);
+	console.log("fileName:  "+fileName);
+	console.log("title:  " +title);
+	console.log("review:  " + review);
+	
 })
 
 
-app.listen(8080, function(){
+app.listen(9000, function(){
     console.log("connected server!!")
 })
 
