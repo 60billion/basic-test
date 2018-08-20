@@ -13,9 +13,9 @@ app.use(cors());
 //데이터베이스 접속
 var mysql = require('mysql');
 var conn = mysql.createConnection({
+	host:"testdatabase.c3asktw2nxxm.ap-northeast-2.rds.amazonaws.com",
     user:"root",
     password:"11131113",
-    port:3306,
     database:"public"
 })
 conn.connect(function(){
@@ -54,20 +54,39 @@ app.get('/',function(req,res){
 	res.send("hello world");
 })
 
+
+//CREATE TABLE `review` (  
+//	`id`  tinyint NOT NULL AUTO_INCREMENT, 
+//	`title`  VARCHAR(100) NOT NULL ,  
+//	`review`  VARCHAR(5000) NOT NULL ,   
+//	`fileName`  VARCHAR(100) NOT NULL ,   
+//	`location`  VARCHAR(250) NOT NULL , 
+//	PRIMARY KEY (`id`)
+//	);
+
 app.post('/getReview',upload.array('reviewImage'),function(req,res,next){
     console.log('uploaded '+req.files[0].fieldname+" files"+req.files[0].originalname);
-    console.dir(req.files);
-	var link = req.files[0].location;
+	var location = req.files[0].location;
 	var fileName = req.files[0].originalname;
 	var title = req.body.title;
 	var review = req.body.review;
-	console.log(link);
-	console.log("fileName:  "+fileName);
-	console.log("title:  " +title);
-	console.log("review:  " + review);
-	
-})
-
+	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`) values(?,?,?,?);'
+	var params = [title,review,fileName,location]
+	conn.query(sql,params,function(err,rows,field){
+			if(err) console.log("err!!!: " + err );
+			console.log("success upload to database");
+			})	
+});
+app.post('/getall',function(req,res){
+			var sql = 'select * from review';
+			conn.query(sql,function(err,rows,fields){
+				if(err)console.log('couldn\'t get data from review table : ' + err)
+//				console.log(rows);
+				res.send({
+					reviews:rows				
+				})
+			})
+		})
 
 app.listen(9000, function(){
     console.log("connected server!!")
