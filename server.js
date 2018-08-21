@@ -3,6 +3,8 @@ var bodyparser = require('body-parser');
 var logger = require('morgan');
 var methodOverride = require('method-override');
 var cors = require('cors');
+var pbkfd2Password = require('pbkdf2-password');
+var hasher = pbkfd2Password();
 //서버구동
 var app = express();
 app.use(logger('dev'));
@@ -75,18 +77,85 @@ app.post('/getReview',upload.array('reviewImage'),function(req,res,next){
 	conn.query(sql,params,function(err,rows,field){
 			if(err) console.log("err!!!: " + err );
 			console.log("success upload to database");
+			res.send();
 			})	
 });
+
 app.post('/getall',function(req,res){
 			var sql = 'select * from review';
 			conn.query(sql,function(err,rows,fields){
 				if(err)console.log('couldn\'t get data from review table : ' + err)
-//				console.log(rows);
+//			console.log(rows);
 				res.send({
 					reviews:rows				
 				})
 			})
 		})
+
+//REATE TABLE `user` (
+//			    `id`  tinyint NOT NULL  AUTO_INCREMENT,
+//				`username`  varchar(50) NOT NULL ,
+//				`password`  varchar(500) NOT NULL ,
+//				`key`  varchar(500) NOT NULL ,
+//				`profileimg`  varchar(250) NOT NULL,
+//				PRIMARY KEY (`id`)
+//				);
+app.post('/register',function(req,res){
+			var username = req.body.username;
+			var password = req.body.password;
+			var sql = "select username from user;"
+			var checkDuplicate = "";
+			conn.query(sql,function(err,rows,fields){
+				for(email in rows){
+					if(username === rows[email].username){
+						checkDuplicate = "true";
+					}
+				}
+				if(checkDuplicate){
+					res.send({result:"duplicated"});
+				}else{
+					hasher({password:password},function(err,pass,salt,hash){
+							var sql2 = 'insert into user (`username`,`password`,`key`) values(?,?,?);';
+							var params = [username,hash,salt];
+							conn.query(sql2,params,function(err,rows,fields){
+									console.log("success to register")
+									res.send({result:"registered"});
+							})
+					})
+				}
+			})
+		})
+app.post('/login',function(req,res){
+	var username = req.body.username;
+	console.log(username);
+	var sql = 'select * from user';
+	conn.query(sql,function(err,rows,fields){
+		var checkUsername = "";
+		for(num in rows){
+			if(username === rows[num].username){
+				console.log("first rows : " + rows)
+				checkUsername = "true";
+				var sql1 = "select * from user where id=?"
+				var param = rows[num].id;
+				conn.query(sql1,param,function(err,row,fields){
+					hasher({password:req.body.password, salt:row[0].key},function(err,pass,salt,hash){
+						console.log(row);
+						console.log(hash);
+						if(row[0].password === hash){
+							res.send({result:"success"});
+						}else{
+							res.send({result:"passwordErr"});
+						}
+					})
+				})
+			}
+		}
+		//if(!checkUsername){
+		//	res.send({result:"usernameErr"});
+	//	}
+	})
+
+})
 
 app.listen(9000, function(){
     console.log("connected server!!")
