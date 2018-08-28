@@ -73,12 +73,23 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var fileName = req.files[0].originalname;
 	var title = req.body.title;
 	var review = req.body.review;
-	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`) values(?,?,?,?);'
-	var params = [title,review,fileName,location]
+	var username = req.code.username;
+	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`) values(?,?,?,?,?);'
+	var sql1 = 'insert into `user` (`review`) values(?) where username=?;'
+	var params = [title,review,fileName,location,username]
+	var param = [{
+		title:title,
+		review:review,
+		location:location
+	},username
+	]
 	conn.query(sql,params,function(err,rows,field){
 			if(err) console.log("err!!!: " + err );
-			console.log("success upload to database");
-			res.send({session:"session"});
+			conn.query(sql1, param, function(err,rows,field){
+				if(err) console.log("err!!!: " + err );
+				console.log("success upload to database");
+				res.send({session:"session"});
+				})
 			})	
 });
 
@@ -166,8 +177,6 @@ app.post('/login',function(req,res){
 })
 
 function verify (req,res,next){
-	const title = req.body.title;
-	console.log(title+"~~~")
 	const token = req.body.tokens;
 	console.log(token+"!!!!");
 	if(!token){
