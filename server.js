@@ -77,12 +77,8 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`) values(?,?,?,?,?);'
 	var sql1 = 'update `user` set review = ? where username=?;'
 	var params = [title,review,fileName,location,username]
-	var param = [{
-		title:title,
-		review:review,
-		location:location
-	},username
-	]
+	var reviewDetail= `{title:${title},review:${review},location:${location}}`
+	var param = [reviewDetail,username]
 	conn.query(sql,params,function(err,rows,field){
 			if(err) console.log("err!!!: " + err );
 			conn.query(sql1, param, function(err,rows,field){
