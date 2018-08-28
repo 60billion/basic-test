@@ -166,6 +166,8 @@ app.post('/login',function(req,res){
 })
 
 function verify (req,res,next){
+	const title = req.body.title;
+	console.log(title+"~~~")
 	const token = req.body.tokens;
 	console.log(token+"!!!!");
 	if(!token){
