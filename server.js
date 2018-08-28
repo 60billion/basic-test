@@ -75,7 +75,7 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var review = req.body.review;
 	var username = req.code.username;
 	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`) values(?,?,?,?,?);'
-	var sql1 = 'insert into `user` (`review`) values(?) from `user` where username=?;'
+	var sql1 = 'update `user` set review = ? where username=?;'
 	var params = [title,review,fileName,location,username]
 	var param = [{
 		title:title,
