@@ -67,7 +67,7 @@ app.get('/',function(req,res){
 //	PRIMARY KEY (`id`)
 //	);
 
-app.post('/getReview',verify,upload.array('reviewImage'),function(req,res,next){
+app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	console.log('uploaded '+req.files[0].fieldname+" files"+req.files[0].originalname);
 	var location = req.files[0].location;
 	var fileName = req.files[0].originalname;
