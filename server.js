@@ -86,6 +86,7 @@ app.post('/getall',verify,function(req,res){
 			var sql = 'select * from review';
 			conn.query(sql,function(err,rows,fields){
 				if(err)console.log('couldn\'t get data from review table : ' + err)
+					console.log(req.code)
 					res.send({
 						reviews:rows
 					})		
