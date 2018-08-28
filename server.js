@@ -67,6 +67,9 @@ app.get('/',function(req,res){
 //	PRIMARY KEY (`id`)
 //	);
 
+// update user set review=concat(ifnull(review,""),"{again:again}");
+
+
 app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	console.log('uploaded '+req.files[0].fieldname+" files"+req.files[0].originalname);
 	var location = req.files[0].location;
@@ -88,6 +91,12 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 				})
 			})	
 });
+
+app.get('/data',function(req,res){
+	conn.query("select review from user where username=\'y@y.com\' ",function(err,rows,field){
+		console.log(rows);
+	})
+})
 
 app.post('/getall',verify,function(req,res){
 			var sql = 'select * from review';
