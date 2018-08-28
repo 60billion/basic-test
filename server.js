@@ -75,13 +75,13 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var review = req.body.review;
 	var username = req.code.username;
 	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`) values(?,?,?,?,?);'
-	var sql1 = 'insert into `user` (`review`) values(?) where username=?;'
+	var sql1 = 'insert into `user` (`review`) values(?) where id=?;'
 	var params = [title,review,fileName,location,username]
 	var param = [{
 		title:title,
 		review:review,
 		location:location
-	},username
+	},11
 	]
 	conn.query(sql,params,function(err,rows,field){
 			if(err) console.log("err!!!: " + err );
