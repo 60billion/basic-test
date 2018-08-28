@@ -64,6 +64,7 @@ app.get('/',function(req,res){
 //	`review`  VARCHAR(5000) NOT NULL ,   
 //	`fileName`  VARCHAR(100) NOT NULL ,   
 //	`location`  VARCHAR(250) NOT NULL , 
+//	`author` varchar(100)
 //	PRIMARY KEY (`id`)
 //	);
 
@@ -80,7 +81,7 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`) values(?,?,?,?,?);'
 	var sql1 = 'update `user` set review = ? where username=?;'
 	var params = [title,review,fileName,location,username]
-	var reviewDetail= `{title:${title},review:${review},location:${location}}`
+	var reviewDetail= `{title:${title},review:${review},location:${location}}`//여기까지 객체로 넣는거는 성공, 다만 어펜드하면서 주입시켜야 활용이 가능할거같다. 이부분을 연구해야할거같다.
 	var param = [reviewDetail,username]
 	conn.query(sql,params,function(err,rows,field){
 			if(err) console.log("err!!!: " + err );
@@ -115,6 +116,7 @@ app.post('/getall',verify,function(req,res){
 //				`password`  varchar(500) NOT NULL ,
 //				`key`  varchar(500) NOT NULL ,
 //				`profileimg`  varchar(250) NOT NULL,
+//				`review` varchar(250)
 //				PRIMARY KEY (`id`)
 //				);
 app.post('/register',function(req,res){
