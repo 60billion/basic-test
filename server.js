@@ -100,25 +100,20 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 app.post('/profileMain',verify,function(req,res){
 	var username = req.code.username;
 	console.log(username)
-	sql="select review from user where username=?"
+	var sql="select review from user where username=?"
 	reviews=[];
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
 		var reviewsId = rows[0].review.split(",")
+		reviewsId.pop();
 		console.log(reviewsId);
-		for (i=0; i<reviewsId.length-1; i++){
-			//var idValue = number(reviewsId[i])
-			sql1=`select * from review where id = ${reviewsId[i]}`;
-			conn.query(sql1,function(err,rows,field){
-				if(err) console.log("inForloop: "+err)
-				console.log(rows[0]);
-				console.log(typeof(rows[0]));
-				//reviews.append(row[0]);
-			})
-		}
-		res.send({
-			reviews:reviews
+		var sql1 = "select * from `review` where `id` in ('.implode(',',$reviewsId).')";
+		conn.query(sql1,function(err,rows,field){
+			console.log(rows[0]);
+			console.log(rows)
+			console.dir(rows)
 		})
+
 	})
 })
 
