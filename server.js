@@ -107,7 +107,8 @@ app.post('/profileMain',verify,function(req,res){
 		var reviewsId = rows[0].review.split(",")
 		reviewsId.pop();
 		console.log(reviewsId);
-		var sql1 = "select * from `review` where `id` in ('.implode(',',$reviewsId).')";
+
+		var sql1 = "select * from `review` where `id` in"+reviewsId;
 		conn.query(sql1,function(err,rows,field){
 			console.log(rows[0]);
 			console.log(rows)
