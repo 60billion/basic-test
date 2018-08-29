@@ -97,16 +97,18 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 			})	
 });
 
-app.get('/profileMain',verify,function(req,res){
+app.post('/profileMain',verify,function(req,res){
 	var username = req.code.username;
 	console.lof(username)
 	sql="select review from user where username=?"
 	conn.query(sql,username,function(err,rows,field){
+		if(err) console.log("first: "+err)
 		var reviewsId = rows[0].review.split(",")
 		console.log(reviewsId);
 		for (i=0; i<reviewsId.length-1; i++){
 			sql1=`select * from review where id = ${i}`;
 			conn.query(sql1,function(err,rows,field){
+				if(err) console.log("inForloop: "+err)
 				console.log(rows[0]);
 				if(i==reviewsId.lenght-1){
 					res.send({reviews:reviews});
