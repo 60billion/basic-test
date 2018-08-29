@@ -101,6 +101,7 @@ app.post('/profileMain',verify,function(req,res){
 	var username = req.code.username;
 	console.log(username)
 	sql="select review from user where username=?"
+	reviews=[];
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
 		var reviewsId = rows[0].review.split(",")
@@ -111,12 +112,12 @@ app.post('/profileMain',verify,function(req,res){
 			conn.query(sql1,function(err,rows,field){
 				if(err) console.log("inForloop: "+err)
 				console.log(rows[0]);
-				if(i==reviewsId.lenght-2){
-					console.log("working")
-					res.send({reviews:reviews});
-				}
+				reviews.append(row[0]);
 			})
 		}
+		res.send({
+			reviews:reviews
+		})
 	})
 })
 
