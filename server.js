@@ -112,7 +112,7 @@ app.post('/profileMain',verify,function(req,res){
 			conn.query(sql1,function(err,rows,field){
 				if(err) console.log("inForloop: "+err)
 				console.log(rows[0]);
-				console.log(typeOf(rows[0]));
+				console.log(typeof(rows[0]));
 				//reviews.append(row[0]);
 			})
 		}
