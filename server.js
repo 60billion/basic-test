@@ -112,6 +112,7 @@ app.post('/profileMain',verify,function(req,res){
 				if(err) console.log("inForloop: "+err)
 				console.log(rows[0]);
 				if(i==reviewsId.lenght-2){
+					console.log("working")
 					res.send({reviews:reviews});
 				}
 			})
