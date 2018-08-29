@@ -100,14 +100,17 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 app.get('/profileMain',verify,function(req,res){
 	var username = req.code.username;
 	console.lof(username)
-	conn.query("select review from user where username="+username,function(err,rows,field){
+	sql="select review from user where username=?"
+	conn.query(sql,username,function(err,rows,field){
 		var reviewsId = rows[0].review.split(",")
 		console.log(reviewsId);
 		for (i=0; i<reviewsId.length-1; i++){
-			sql=`select * from review where id = ${i}`;
-			conn.query(sql,function(err,rows,field){
+			sql1=`select * from review where id = ${i}`;
+			conn.query(sql1,function(err,rows,field){
 				console.log(rows[0]);
-				res.send({reviews:reviews});
+				if(i==reviewsId.lenght-1){
+					res.send({reviews:reviews});
+				}
 			})
 		}
 	})
