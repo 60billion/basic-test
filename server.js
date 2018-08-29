@@ -108,11 +108,10 @@ app.post('/profileMain',verify,function(req,res){
 		reviewsId.pop();
 		console.log(reviewsId);
 
-		var sql1 = "select * from `review` where `id` in (66,67,68,69)";
-		conn.query(sql1,function(err,rows,field){
+		var sql1 = "select * from `review` where `id` in (?)";
+		conn.query(sql1,reviewsId,function(err,rows,field){
 			console.log(rows[0]);
 			console.log(rows)
-			console.dir(rows)
 		})
 
 	})
