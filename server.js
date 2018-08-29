@@ -89,7 +89,7 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	conn.query(sql,params,function(err,rows,field){
 			if(err) console.log("err!!!: " + err );
 			console.dir("first query: "+rows.insertId);
-			conn.query(sql1, [rows.insertId,username], function(err,rows,field){
+			conn.query(sql1, [rows.insertId+",",username], function(err,rows,field){
 			 	if(err) console.log("err!!!: " + err );
 			 	console.log("success upload to database");
 			 	res.send({session:"session"});
