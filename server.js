@@ -88,7 +88,7 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var param = [reviewDetail,username]
 	conn.query(sql,params,function(err,rows,field){
 			if(err) console.log("err!!!: " + err );
-			console.dir("first query: "+rows);
+			console.dir("first query: "+rows[0]);
 			res.send({session:"session"});
 			// conn.query(sql1, param, function(err,rows,field){
 			// 	if(err) console.log("err!!!: " + err );
