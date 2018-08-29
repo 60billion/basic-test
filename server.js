@@ -111,7 +111,7 @@ app.post('/profileMain',verify,function(req,res){
 			conn.query(sql1,function(err,rows,field){
 				if(err) console.log("inForloop: "+err)
 				console.log(rows[0]);
-				if(i==reviewsId.lenght-1){
+				if(i==reviewsId.lenght-2){
 					res.send({reviews:reviews});
 				}
 			})
