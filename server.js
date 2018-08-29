@@ -99,7 +99,8 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 
 app.get('/data',function(req,res){
 	conn.query("select review from user where username=\'y@y.com\' ",function(err,rows,field){
-		console.log(rows[0]);
+		var a = rows[0].review.split(",")
+		console.log(a);
 	})
 })
 
