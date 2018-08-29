@@ -99,7 +99,7 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 
 app.post('/profileMain',verify,function(req,res){
 	var username = req.code.username;
-	console.lof(username)
+	console.log(username)
 	sql="select review from user where username=?"
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
