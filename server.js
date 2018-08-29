@@ -105,11 +105,11 @@ app.post('/profileMain',verify,function(req,res){
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
 		var reviewsId = rows[0].review.split(",")
-		// reviewsId.pop();
+		reviewsId.pop();
 		console.log(reviewsId);
 
-		var sql1 = "select * from `review` where `id` in (?)";
-		conn.query(sql1,reviewsId,function(err,rows,field){
+		var sql1 = `select * from review where id in (${reviewsId})`;
+		conn.query(sql1,function(err,rows,field){
 			console.log(rows[0]);
 			console.log(rows)
 		})
