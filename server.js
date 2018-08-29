@@ -88,11 +88,12 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var param = [reviewDetail,username]
 	conn.query(sql,params,function(err,rows,field){
 			if(err) console.log("err!!!: " + err );
-			conn.query(sql1, param, function(err,rows,field){
-				if(err) console.log("err!!!: " + err );
-				console.log("success upload to database");
-				res.send({session:"session"});
-				})
+			console.log("first query: "+rows);
+			// conn.query(sql1, param, function(err,rows,field){
+			// 	if(err) console.log("err!!!: " + err );
+			// 	console.log("success upload to database");
+			// 	res.send({session:"session"});
+			// 	})
 			})	
 });
 
