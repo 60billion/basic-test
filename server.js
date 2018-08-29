@@ -106,7 +106,8 @@ app.post('/profileMain',verify,function(req,res){
 		var reviewsId = rows[0].review.split(",")
 		console.log(reviewsId);
 		for (i=0; i<reviewsId.length-1; i++){
-			sql1=`select * from review where id = ${i}`;
+			//var idValue = number(reviewsId[i])
+			sql1=`select * from review where id = ${reviewsId[i]}`;
 			conn.query(sql1,function(err,rows,field){
 				if(err) console.log("inForloop: "+err)
 				console.log(rows[0]);
