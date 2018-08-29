@@ -68,7 +68,7 @@ app.get('/',function(req,res){
 //	PRIMARY KEY (`id`)
 //	);
 
-// update user set review=concat(ifnull(review,""),"{again:again}");
+// update user set review=concat(ifnull(review,""),?) where username=?;
 
 //verify 미들웨어는 멀터 다음순서에 넣어야 미들웨어에서 바디값을 읽어올 수 있다. 
 //현재라우터에선 미들웨어의 decode값을 req.code로 받아오고 있다.
@@ -81,9 +81,10 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var review = req.body.review;
 	var username = req.code.username;
 	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`) values(?,?,?,?,?);'
-	var sql1 = 'update `user` set review = ? where username=?;'
+	// var sql1 = 'update `user` set review = ? where username=?;'
+	var sql1 = 'update user set review=concat(ifnull(review,""),?) where username=?;'
 	var params = [title,review,fileName,location,username]
-	var reviewDetail= `{title:${title},review:${review},location:${location}}`//여기까지 객체로 넣는거는 성공, 다만 어펜드하면서 주입시켜야 활용이 가능할거같다. 이부분을 연구해야할거같다. 참고 update user set review=concat(ifnull(review,""),"{again:again}");
+	var reviewDetail= `${title}:{title:${title},review:${review},location:${location}},`//여기까지 객체로 넣는거는 성공, 다만 어펜드하면서 주입시켜야 활용이 가능할거같다. 이부분을 연구해야할거같다. 참고 update user set review=concat(ifnull(review,""),"{again:again}");
 	var param = [reviewDetail,username]
 	conn.query(sql,params,function(err,rows,field){
 			if(err) console.log("err!!!: " + err );
