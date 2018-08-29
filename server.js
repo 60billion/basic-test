@@ -97,10 +97,18 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 			})	
 });
 
-app.get('/data',function(req,res){
-	conn.query("select review from user where username=\'y@y.com\' ",function(err,rows,field){
-		var a = rows[0].review.split(",")
-		console.log(a);
+app.get('/profileMain',verify,function(req,res){
+	var username = req.code.username;
+	conn.query("select review from user where username="+username,function(err,rows,field){
+		var reviewsId = rows[0].review.split(",")
+		console.log(reviewsId);
+		for (i=0; i<reviewsId.length-1; i++){
+			sql=`select * from review where id = ${i}`;
+			conn.query(sql,function(err,rows,field){
+				console.log(rows[0]);
+				res.send({reviews:reviews});
+			})
+		}
 	})
 })
 
