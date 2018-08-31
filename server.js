@@ -77,7 +77,7 @@ app.post('/wantit',verify,function(req,res){
 					var params = [stringfy,id];
 					conn.query(sql1_1,params,function(err,rows,field){
 						console.log("compeleted decresase : " +rows)
-						res.send({result:decrease})
+						res.send({result:"decrease"})
 					})
 				})
 			}
@@ -91,7 +91,7 @@ app.post('/wantit',verify,function(req,res){
 			var params = [username+",",id];
 			conn.query(sql1_1,params,function(err,rows,field){
 				console.log("compeleted username increase : " +rows)
-				res.send({result:increase})
+				res.send({result:"increase"})
 			})
 		})
 
