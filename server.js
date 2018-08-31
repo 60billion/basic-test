@@ -56,11 +56,11 @@ var upload = multer({
 app.post('/wantit',verify,function(req,res){
 	var id = req.body.id;
 	var count = req.body.count;
+	var realCount = parseInt(count);
 	var username = req.code.username;
-	var sql = 'select whoLike from review;'
-	conn.query(sql,function(err,rows,field){
+	var sql = 'select whoLike from review where id = ?;'
+	conn.query(sql,id,function(err,rows,field){
 		console.log(rows);
-		console.dir(rows);
 	})
 	
 })
