@@ -88,7 +88,7 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var title = req.body.title;
 	var review = req.body.review;
 	var username = req.code.username;
-	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`,`whoLike`) values(?,?,?,?,?);'
+	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`,`whoLike`) values(?,?,?,?,?,?);'
 	//var sql1 = `update user set review = JSON_ARRAY_APPEND(review,'$',?) where username=?;`
 	var sql1 = 'update user set review=concat(ifnull(review,""),?) where username=?;'
 	var params = [title,review,fileName,location,username,""]
