@@ -60,6 +60,9 @@ app.post('/wantit',verify,function(req,res){
 	var username = req.code.username;
 	var sql = 'select whoLike from review where id = ?;'
 	conn.query(sql,id,function(err,rows,field){
+		if(rows[0]==null){
+			var array = rows[0].whoLike;
+		}
 		var array = rows[0].whoLike.split(",");
 		for(i in array){
 			if(username === array[i]){
@@ -71,7 +74,7 @@ app.post('/wantit',verify,function(req,res){
 					console.log("compeleted count decrease : " +rows)
 					var stringfy = ""
 					for(a in array){
-						stringfy = stringfy+a+",";
+						stringfy = stringfy+array[a]+",";
 					}
 					var sql1_1 = 'update review set whoLike=? where id=?;'
 					var params = [stringfy,id];
