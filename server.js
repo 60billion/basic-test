@@ -82,7 +82,7 @@ app.post('/wantit',verify,function(req,res){
 				})
 			}
 		}
-		var increaseCount = realcount + 1;
+		var increaseCount = realCount + 1;
 		var realIncreaseCount = increaseCount.toString();
 		var sql1 = "update review set count = ? where id = ?;"
 		conn.query(sql1,[realIncreaseCount,id],function(err,rows,field){
