@@ -82,8 +82,9 @@ app.post('/wantit',verify,function(req,res){
 						console.log("compeleted decresase : " +rows)
 						res.send({result:"decrease"})
 						
-					})
-				})return;
+					});
+				});
+				return;
 			}
 		}
 		var increaseCount = realCount + 1;
