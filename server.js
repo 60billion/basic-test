@@ -53,6 +53,11 @@ var upload = multer({
 
 
 //좋아요 기능구현
+//좋아요를 누르면 좋아요를 누른 리뷰 아이디와 리뷰의 카운트를 가지고온다. 
+//가지고온 아이디로 테이블을 조회하고 테이블에 whoLike에 사용자아이디가있는지 검사한다.
+//검사 후 아이디가없으면 가지고 온 카운트값에 1을 더해서 업데이트해준다. 이어서 review 테이블에 whoLike 칼럼에 사용자 아이디를 추가한다. -- 앞으로: user테이블에 review ID를 추가한다.
+//검사 후 아이디가 있으면 가지고 온 카운트값에 1을 뺴서 업데이트해준다. 이어서 review 테이블에 whoLike 칼럼에 사용자 아이디를 제거한다. -- 앞으로: user테이블에 review ID를 제거한다.
+
 app.post('/wantit',verify,function(req,res){
 	var id = req.body.id;
 	var count = req.body.count;
@@ -63,7 +68,7 @@ app.post('/wantit',verify,function(req,res){
 		if(rows[0]==null){
 			var array = rows[0].whoLike;
 		}
-		var array = rows[0].whoLike.split(",");
+		var array = rows[0].whoLike.split(",");//콤마가 계속 쌓이는걸 막는 방법을 찾아야한다.
 		for(i in array){
 			if(username === array[i]){
 				var decreaseCount = realCount -1;
@@ -74,6 +79,7 @@ app.post('/wantit',verify,function(req,res){
 					console.log("compeleted count decrease : " +rows)
 					var stringfy = ""
 					for(a in array){
+						if(array[a]!="")
 						stringfy = stringfy+array[a]+",";
 					}
 					var sql1_1 = 'update review set whoLike=? where id=?;'
