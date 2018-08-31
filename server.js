@@ -60,7 +60,26 @@ app.post('/wantit',verify,function(req,res){
 	var username = req.code.username;
 	var sql = 'select whoLike from review where id = ?;'
 	conn.query(sql,id,function(err,rows,field){
-		console.log(rows);
+		var array = rows[0].whoLike.split(",");
+		console.log(array);
+		// for(user in rows){
+		// 	if(username === rows[0].whoLike.username){
+		// 		var decreaseCount = realcount -1;
+		// 		var realDecreaseCount = decreaseCount.toString();
+		// 		var sql1 = "update review set count = ? where id = ?;"
+		// 		conn.query(sql1,[realDecreaseCount,id],function(err,rows,field){
+		// 			var sql1_1 = ``
+		// 		})
+		// 	}else{
+		// 		var increaseCount = realcount +1;
+		// 		var realIncreaseCount = increaseCount.toString();
+		// 		var sql2 = "upate review set count = ? where id =? "
+		// 		conn.query(sql2,[realIncreaseCount,id],function(err,rows,field){
+		// 			var sql2_2 = `update review set whoLike = json_array_appen(whoLike,'$','{"username ":${username}})`
+		// 			conn.query(sql2_2,function(err,rows,field){})
+		// 		})
+		// 	}
+		// }
 	})
 	
 })
