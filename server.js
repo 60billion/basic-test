@@ -81,6 +81,7 @@ app.post('/wantit',verify,function(req,res){
 					conn.query(sql1_1,params,function(err,rows,field){
 						console.log("compeleted decresase : " +rows)
 						res.send({result:"decrease"})
+						return;
 					})
 				})
 			}
