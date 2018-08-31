@@ -59,7 +59,8 @@ app.post('/wantit',verify,function(req,res){
 	var realCount = parseInt(count);
 	var username = req.code.username;
 	var sql = 'select whoLike from review where id = ?;'
-	conn.query(sql,id,function(err,rows,field){
+	var sql1 = 'update review set whoLike=concat(ifnull(review,""),?) where id=?;'
+	conn.query(sql,["test",id],function(err,rows,field){
 		console.log(rows);
 	})
 	
