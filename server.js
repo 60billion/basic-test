@@ -52,9 +52,17 @@ var upload = multer({
 
 
 
-//Gets or Posts
-app.get('/',function(req,res){
-	res.send("hello world");
+//좋아요 기능구현
+app.post('/wantit',verify,function(req,res){
+	var id = req.body.id;
+	var count = req.body.count;
+	var username = req.code.username;
+	var sql = 'select username from review;'
+	conn.query(sql,function(err,rows,field){
+		console.log(rows);
+		console.dir(rows);
+	})
+	
 })
 
 
