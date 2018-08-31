@@ -57,7 +57,7 @@ app.post('/wantit',verify,function(req,res){
 	var id = req.body.id;
 	var count = req.body.count;
 	var username = req.code.username;
-	var sql = 'select username from review;'
+	var sql = 'select whoLike from review;'
 	conn.query(sql,function(err,rows,field){
 		console.log(rows);
 		console.dir(rows);
