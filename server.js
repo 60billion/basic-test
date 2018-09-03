@@ -99,7 +99,7 @@ app.post('/wantit',verify,function(req,res){
 							sql1_3 = "update user set likeReview = ? where username = ?";
 							var params = [stringfy1, username]
 							conn.query(sql1_3,params,function(err,rows,field){
-								console.log("uploaded likeReview numbers(decrease) : "+rows;)
+								console.log("uploaded likeReview numbers(decrease) : "+rows)
 							})
 
 						})
