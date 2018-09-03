@@ -144,10 +144,10 @@ app.post('/showLikes',verify,function(req,res){
 		if(rows.likeReview == null){
 			res.send("noData")
 			return;
-		}else{
+		}
 			var idList = rows[0].likeReview.split(",")
 			idList.pop();
-		}
+		
 		
 		var sql1 = `select * from review where id in (${idList})`;
 		conn.query(sql1,function(err,rows,field){
@@ -222,10 +222,10 @@ app.post('/profileMain',verify,function(req,res){
 		if(rows.review == null){
 			res.send("noData")
 			return;
-		}else{
+		}
 			var reviewsId = rows[0].review.split(",")
 			reviewsId.pop();
-		}
+		
 		
 		var sql1 = `select * from review where id in (${reviewsId})`;
 		conn.query(sql1,function(err,rows,field){
