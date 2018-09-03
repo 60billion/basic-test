@@ -220,7 +220,7 @@ app.post('/profileMain',verify,function(req,res){
 		if(err) console.log("first: "+err)
 		console.log(rows)
 		console.log(rows[0])
-		if(rows == null){
+		if(rows.review[0] == null){
 			res.send("no data")
 			return;
 		}else{
