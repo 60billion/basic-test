@@ -158,8 +158,8 @@ app.post('/showLikes',verify,function(req,res){
 				}
 			}
 			var likeList = {
-				even:even,
-				odd:odd
+				even:even.reverse(),
+				odd:odd.reverse()
 			}
 			console.log(likeList.even);
 			console.log(likeList.odd);
