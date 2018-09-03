@@ -68,7 +68,7 @@ app.post('/wantit',verify,function(req,res){
 		if(rows[0]==null){
 			var array = rows[0].whoLike;
 		}
-		var array = rows[0].whoLike.split(",");//콤마가 계속 쌓이는걸 막는 방법을 찾아야한다.
+		var array = rows[0].whoLike.split(",");//콤마가 계속 쌓이는걸 막는 방법을 찾아야한다.=>해결함 아래 확인
 		for(i in array){
 			if(username === array[i]){
 				var decreaseCount = realCount -1;
@@ -79,7 +79,7 @@ app.post('/wantit',verify,function(req,res){
 					console.log("compeleted count decrease : " +rows)
 					var stringfy = ""
 					for(a in array){
-						if(array[a]!="")
+						if(array[a]!="")//콤마가 계속 쌓이는걸 막는 방법
 						stringfy = stringfy+array[a]+",";
 					}
 					var sql1_1 = 'update review set whoLike=? where id=?;'
@@ -87,7 +87,22 @@ app.post('/wantit',verify,function(req,res){
 					conn.query(sql1_1,params,function(err,rows,field){
 						console.log("compeleted decresase : " +rows)
 						res.send({result:"decrease"})
-						
+						sql1_2 = "select likeReview from user where username = ?"
+						conn.query(sql1_2,username,function(err,rows,field){
+							var userArray = rows[0];
+							var stringfy1 = ""
+							for(b in userArray){
+								if(b != id || userArray[b] != ""){
+									stringfy1 = stringfy1 + userArray[b]+",";
+								}
+							}
+							sql1_3 = "update user set likeReview = ? where username = ?";
+							var params = [stringfy1, username]
+							conn.query(sql1_3,params,function(err,rows,field){
+								console.log("uploaded likeReview numbers(decrease) : "+rows;)
+							})
+
+						})
 					});
 				});
 				return;
@@ -95,14 +110,19 @@ app.post('/wantit',verify,function(req,res){
 		}
 		var increaseCount = realCount + 1;
 		var realIncreaseCount = increaseCount.toString();
-		var sql1 = "update review set count = ? where id = ?;"
-		conn.query(sql1,[realIncreaseCount,id],function(err,rows,field){
+		var sql2 = "update review set count = ? where id = ?;"
+		conn.query(sql2,[realIncreaseCount,id],function(err,rows,field){
 			console.log("compeleted count increase : " +rows)
-			var sql1_1 = 'update review set whoLike=concat(ifnull(whoLike,""),?) where id=?;'
+			var sql2_1 = 'update review set whoLike=concat(ifnull(whoLike,""),?) where id=?;'
 			var params = [username+",",id];
-			conn.query(sql1_1,params,function(err,rows,field){
+			conn.query(sql2_1,params,function(err,rows,field){
 				console.log("compeleted username increase : " +rows)
 				res.send({result:"increase"})
+				var sql2_2 = 'update user set likeReview=concat(ifnull(likeReview,""),?) where username=?;'
+				var params = [id+",",username];
+				conn.query(sql2_2,params,function(err,rows,field){
+					console.log("uploaded review id to user table: " +rows);
+				})
 			})
 		})
 
