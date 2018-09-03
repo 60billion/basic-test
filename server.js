@@ -144,7 +144,7 @@ app.post('/showLikes',verify,function(req,res){
 		console.log("showLikes Check console : " + rows[0].likeReview);
 		if(rows.likeReview == null){
 			res.send("noData")
-			return;
+			
 		}
 			var idList = rows[0].likeReview.split(",")
 			idList.pop();
@@ -224,7 +224,7 @@ app.post('/profileMain',verify,function(req,res){
 		if(err) console.log("first: "+err)
 		if(rows.review == null){
 			res.send("noData")
-			return;
+			
 		}
 			var reviewsId = rows[0].review.split(",")
 			reviewsId.pop();
