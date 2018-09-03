@@ -91,10 +91,10 @@ app.post('/wantit',verify,function(req,res){
 						conn.query(sql1_2,username,function(err,rows,field){
 							var realId = String(id);
 							var userArray = rows[0];
+							console.log(userArray)
 							var stringfy1 = ""
 							for(b in userArray){
 								if(userArray[b] != realId || userArray[b] != ""){
-									console.log(userArray[b]);
 									stringfy1 = stringfy1 + userArray[b]+",";
 								}
 							}
