@@ -141,6 +141,13 @@ app.post('/showLikes',verify,function(req,res){
 	var username = req.code.username;
 	conn.query(sql,username,function(err,rows,field){
 		console.log("showLikes Check console : " + rows[0].likeReview);
+		if(rows[0] == null){
+			var idList = rows[0].likeReview
+			res.send({result:"noLikes"})
+		}
+		var idList = rows[0].likeReview.split(",")
+		console.log(idList)
+		var sql1 = "select * from review where id in ()"; 
 	})
 
 })
