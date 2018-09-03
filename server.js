@@ -216,6 +216,9 @@ app.post('/profileMain',verify,function(req,res){
 	var sql="select review from user where username=?"
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
+		if(rows[0].review == null){
+			var reviewsId = rows[0].review
+		}
 		var reviewsId = rows[0].review.split(",")
 		reviewsId.pop();
 		var sql1 = `select * from review where id in (${reviewsId})`;
