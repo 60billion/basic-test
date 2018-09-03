@@ -89,7 +89,7 @@ app.post('/wantit',verify,function(req,res){
 						res.send({result:"decrease"})
 						sql1_2 = "select likeReview from user where username = ?"
 						conn.query(sql1_2,username,function(err,rows,field){
-							var realId = string(id);
+							var realId = String(id);
 							var userArray = rows[0];
 							var stringfy1 = ""
 							for(b in userArray){
