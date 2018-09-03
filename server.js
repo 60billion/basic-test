@@ -90,8 +90,10 @@ app.post('/wantit',verify,function(req,res){
 						sql1_2 = "select likeReview from user where username = ?"
 						conn.query(sql1_2,username,function(err,rows,field){
 							var realId = String(id);
-							var userArray = rows[0];
-							console.log(userArray.likeReview)
+							if(rows[0]==null){
+								var userArray = rows[0].likeRview;
+							}
+							var userArray = rows[0].likeReview.split(",");
 							var stringfy1 = ""
 							for(b in userArray){
 								if(userArray[b] != realId || userArray[b] != ""){
