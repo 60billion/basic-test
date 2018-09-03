@@ -218,6 +218,8 @@ app.post('/profileMain',verify,function(req,res){
 	var sql="select review from user where username=?"
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
+		console.log(rows)
+		console.log(rows[0])
 		if(rows == null){
 			res.send("no data")
 			return;
