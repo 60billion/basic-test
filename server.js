@@ -143,13 +143,29 @@ app.post('/showLikes',verify,function(req,res){
 		console.log("showLikes Check console : " + rows[0].likeReview);
 		if(rows[0] == null){
 			var idList = rows[0].likeReview
-			res.send({result:"noLikes"})
 		}
 		var idList = rows[0].likeReview.split(",")
 		idList.pop();
 		var sql1 = `select * from review where id in (${idList})`;
 		conn.query(sql1,function(err,rows,field){
-			console.log(rows[0].title)
+			var even = [];
+			var odd = [];
+			for(i in rows){
+				if(i%2==0){
+					even.append(rows[i])
+				}else{
+					odd.append(rows[i])
+				}
+			}
+			var likeList = {
+				even:even,
+				odd:odd
+			}
+			console.log(likeList.even);
+			console.log(likeList.odd);
+			res.send({
+				result:likeList
+			})
 		}) 
 	})
 
