@@ -152,9 +152,9 @@ app.post('/showLikes',verify,function(req,res){
 			var odd = [];
 			for(i in rows){
 				if(i%2==0){
-					even.append(rows[i])
+					even.push(rows[i])
 				}else{
-					odd.append(rows[i])
+					odd.push(rows[i])
 				}
 			}
 			var likeList = {
