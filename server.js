@@ -97,8 +97,9 @@ app.post('/wantit',verify,function(req,res){
 							
 							var stringfy1 = ""
 							for(b in userArray){
-								if(userArray[b] != realId || userArray[b] != "" ){
-									console.log(userArray[b]);
+								if(userArray[b] != realId){
+									stringfy1 = stringfy1 + userArray[b]+",";
+								}else if(userArray[b] != "" ){
 									stringfy1 = stringfy1 + userArray[b]+",";
 								}
 							}
