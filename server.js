@@ -220,9 +220,25 @@ app.post('/profileMain',verify,function(req,res){
 		reviewsId.pop();
 		var sql1 = `select * from review where id in (${reviewsId})`;
 		conn.query(sql1,function(err,rows,field){
+			var even = [];
+			var odd = [];
+			for(i in rows){
+				if(i%2==0){
+					even.push(rows[i])
+				}else{
+					odd.push(rows[i])
+				}
+			}
+			var profileList = {
+				even:even,
+				odd:odd
+			}
+			console.log(profileList.even);
+			console.log(profileList.odd);
 			res.send({
-				reviews:rows
+				result:profileList
 			})
+			
 		})
 
 	})
