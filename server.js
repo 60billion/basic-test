@@ -140,7 +140,7 @@ app.post('/showLikes',verify,function(req,res){
 	var sql = 'select likeReview from user where username = ?'
 	var username = req.code.username;
 	conn.query(sql,username,function(err,rows,field){
-		console.dir("showLikes Check condole : " + rows[0]);
+		console.log("showLikes Check console : " + rows[0].likeReview);
 	})
 
 })
