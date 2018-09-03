@@ -221,7 +221,7 @@ app.post('/profileMain',verify,function(req,res){
 		console.log(rows)
 		// console.log(rows[0])
 		if(rows.review == null){
-			res.send("no data")
+			res.send("noData")
 			return;
 		}else{
 			var reviewsId = rows[0].review.split(",")
