@@ -92,7 +92,7 @@ app.post('/wantit',verify,function(req,res){
 							var userArray = rows[0];
 							var stringfy1 = ""
 							for(b in userArray){
-								if(b != id || userArray[b] != ""){
+								if(userArray[b] != id || userArray[b] != ""){
 									stringfy1 = stringfy1 + userArray[b]+",";
 								}
 							}
