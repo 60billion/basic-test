@@ -219,8 +219,8 @@ app.post('/profileMain',verify,function(req,res){
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
 		console.log(rows)
-		console.log(rows[0])
-		if(rows.review[0] == null){
+		// console.log(rows[0])
+		if(rows.review == null){
 			res.send("no data")
 			return;
 		}else{
