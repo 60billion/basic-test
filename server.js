@@ -141,8 +141,9 @@ app.post('/showLikes',verify,function(req,res){
 	var username = req.code.username;
 	conn.query(sql,username,function(err,rows,field){
 		console.log("showLikes Check console : " + rows[0].likeReview);
-		if(rows[0] == null){
-			var idList = rows[0].likeReview
+		if(rows.likeReview == null){
+			res.send("noData")
+			return;
 		}else{
 			var idList = rows[0].likeReview.split(",")
 			idList.pop();
@@ -218,8 +219,6 @@ app.post('/profileMain',verify,function(req,res){
 	var sql="select review from user where username=?"
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
-		console.log(rows)
-		// console.log(rows[0])
 		if(rows.review == null){
 			res.send("noData")
 			return;
