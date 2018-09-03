@@ -139,6 +139,7 @@ app.post('/wantit',verify,function(req,res){
 app.post('/showLikes',verify,function(req,res){
 	var sql = 'select likeReview from user where username = ?'
 	var username = req.code.username;
+	console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 	conn.query(sql,username,function(err,rows,field){
 		console.log("showLikes Check console : " + rows[0].likeReview);
 		if(rows.likeReview == null){
@@ -218,6 +219,7 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 app.post('/profileMain',verify,function(req,res){
 	var username = req.code.username;
 	var sql="select review from user where username=?"
+	console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
 		if(rows.review == null){
