@@ -136,6 +136,15 @@ app.post('/wantit',verify,function(req,res){
 	
 })
 
+app.post('/showLikes',verify,function(req,res){
+	var sql = 'select likeReview from user where username = ?'
+	var username = req.code.username;
+	conn.query(sql,username,function(err,rows,field){
+		console.dir("showLikes Check condole : " + rows);
+	})
+
+})
+
 
 //CREATE TABLE `review` (  
 //	`id`  tinyint NOT NULL AUTO_INCREMENT, 
