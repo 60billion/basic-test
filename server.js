@@ -146,9 +146,11 @@ app.post('/showLikes',verify,function(req,res){
 			res.send({result:"noLikes"})
 		}
 		var idList = rows[0].likeReview.split(",")
-		var realIdList = idList.pop();
-		console.log(idList)
-		var sql1 = "select * from review where id in ()"; 
+		idList.pop();
+		var sql1 = `select * from review where id in (${idList})`;
+		conn.query(sql1,function(err,rows,field){
+			console.log(rows[0].title)
+		}) 
 	})
 
 })
