@@ -147,6 +147,7 @@ app.post('/showLikes',verify,function(req,res){
 		}
 			var idList = rows[0].likeReview.split(",")
 			idList.pop();
+			console.log(idList)
 		
 		
 		var sql1 = `select * from review where id in (${idList})`;
@@ -225,6 +226,7 @@ app.post('/profileMain',verify,function(req,res){
 		}
 			var reviewsId = rows[0].review.split(",")
 			reviewsId.pop();
+			console.log(reviewsId)
 		
 		
 		var sql1 = `select * from review where id in (${reviewsId})`;
