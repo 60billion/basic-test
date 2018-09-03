@@ -94,6 +94,7 @@ app.post('/wantit',verify,function(req,res){
 								var userArray = rows[0].likeRview;
 							}
 							var userArray = rows[0].likeReview.split(",");
+							console.log(userArray);
 							var stringfy1 = ""
 							for(b in userArray){
 								if(userArray[b] != id || userArray[b] != ""){
