@@ -143,9 +143,11 @@ app.post('/showLikes',verify,function(req,res){
 		console.log("showLikes Check console : " + rows[0].likeReview);
 		if(rows[0] == null){
 			var idList = rows[0].likeReview
+		}else{
+			var idList = rows[0].likeReview.split(",")
+			idList.pop();
 		}
-		var idList = rows[0].likeReview.split(",")
-		idList.pop();
+		
 		var sql1 = `select * from review where id in (${idList})`;
 		conn.query(sql1,function(err,rows,field){
 			var even = [];
@@ -216,11 +218,13 @@ app.post('/profileMain',verify,function(req,res){
 	var sql="select review from user where username=?"
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
-		if(rows[0].review == null){
+		if(rows[0] == null){
 			var reviewsId = rows[0].review
+		}else{
+			var reviewsId = rows[0].review.split(",")
+			reviewsId.pop();
 		}
-		var reviewsId = rows[0].review.split(",")
-		reviewsId.pop();
+		
 		var sql1 = `select * from review where id in (${reviewsId})`;
 		conn.query(sql1,function(err,rows,field){
 			var even = [];
