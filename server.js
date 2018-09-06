@@ -50,6 +50,7 @@ var upload = multer({
     })
 });
 
+//댓글받아서 데이터베이스에 올리는 기능
 app.post('/comment',verify,function(req,res){
 	var comment = req.body.comment
 	console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~"+comment);
