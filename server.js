@@ -50,6 +50,11 @@ var upload = multer({
     })
 });
 
+app.post('/comment',verify,function(req,res){
+	var comment = req.body.comment
+	console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~"+comment);
+})
+
 
 
 //좋아요 기능구현
