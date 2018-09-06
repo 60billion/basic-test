@@ -53,6 +53,7 @@ var upload = multer({
 app.post('/comment',verify,function(req,res){
 	var comment = req.body.comment
 	console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~"+comment);
+	res.send({result:"comment"})
 })
 
 
