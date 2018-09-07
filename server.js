@@ -109,16 +109,18 @@ app.post('/undercomment',verify,function(req,res){
 	var username = req.code.username;
 	var reviewId = req.body.reviewId;
 	var underComment = req.body.underComment;
+	console.log(underComment);
 	var comment = req.body.comment;
 	var sql = "select nickname,profileimg from user where username = ?; "
 	conn.query(sql,username,function(err,rows,fields){
+		console.log("underrow :"+rows[0])
 		var nickname = rows[0].nickanme;
 		var profileimg = rows[0].profileimg;
 		var sql1 = "insert into `underComment`(`reviewId`,`underComment`,`nickname`,`profileimg`,`comment`) values(?,?,?,?,?);";
 		var params = [reviewId,underComment,nickname,profileimg,comment];
 		conn.query(sql1,params,function(err,rows,fields){
 			res.send({result:"comment"});
-			console.log("underComment uploaded successfully!!")
+			console.log("underComment uploaded successfully!!"+rows)
 		})
 	})
 })
