@@ -107,15 +107,20 @@ app.post('/comment',verify,function(req,res){
 //undercomment 댓글받아서 데이터베이스에 올리는 기능
 app.post('/undercomment',verify,function(req,res){
 	var username = req.code.username;
+	console.log(username)
 	var reviewId = req.body.reviewId;
+	console.log(reviewId)
 	var underComment = req.body.underComment;
 	console.log(underComment);
 	var comment = req.body.comment;
+	console.log(comment)
 	var sql = "select nickname,profileimg from user where username = ?; "
 	conn.query(sql,username,function(err,rows,fields){
 		console.log("underrow :"+rows[0])
 		var nickname = rows[0].nickanme;
+		console.log(nickname)
 		var profileimg = rows[0].profileimg;
+		console.log(profileimg)
 		var sql1 = "insert into `underComment`(`reviewId`,`underComment`,`nickname`,`profileimg`,`comment`) values(?,?,?,?,?);";
 		var params = [reviewId,underComment,nickname,profileimg,comment];
 		conn.query(sql1,params,function(err,rows,fields){
