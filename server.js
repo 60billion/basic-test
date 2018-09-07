@@ -249,16 +249,21 @@ app.post('/profileMain',verify,function(req,res){
 					odd.push(rows[i])
 				}
 			}
-			var profileList = {
-				even:even,
-				odd:odd
-			}
-			console.log(profileList.even);
-			console.log(profileList.odd);
-			res.send({
-				result:profileList
-			})
 			
+			var sql2 = "select profileimg from user where username = ?"
+			conn.query(sql2,username,function(err,rows){
+				var profileList = {
+					even:even,
+					odd:odd,
+					profileimg:rows[0].profileimg
+				}
+				console.log(profileList.even);
+				console.log(profileList.odd);
+				console.log(profileList.profileimg)
+				res.send({
+					result:profileList
+				})
+			})
 		})
 
 	})
