@@ -239,7 +239,7 @@ app.post('/profileMain',verify,function(req,res){
 				console.log(profileList.profileimg)
 				console.log(profileList.nickname)
 				res.send({
-					result:profileList
+					noReviewResult:profileList
 				})
 			})
 			return;
