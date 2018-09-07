@@ -115,7 +115,7 @@ app.post('/undercomment',verify,function(req,res){
 		var nickname = rows[0].nickanme;
 		var profileimg = rows[0].profileimg;
 		var sql1 = "insert into `underComment`(`reviewId`,`underComment`,`nickname`,`profileimg`,`comment`) values(?,?,?,?,?);";
-		var params = [reviewId,underComment,comment,nickname,profileimg];
+		var params = [reviewId,underComment,nickname,profileimg,comment];
 		conn.query(sql1,params,function(err,rows,fields){
 			res.send({result:"comment"});
 			console.log("underComment uploaded successfully!!")
@@ -134,7 +134,7 @@ app.post('/inundercomment',verify,function(req,res){
 		var nickname = rows[0].nickanme;
 		var profileimg = rows[0].profileimg;
 		var sql1 = "insert into `underComment`(`reviewId`,`underComment`,`nickname`,`profileimg`,`comment`) values(?,?,?,?,?);";
-		var params = [reviewId,underComment,comment,nickname,profileimg];
+		var params = [reviewId,underComment,nickname,profileimg,comment];
 		conn.query(sql1,params,function(err,rows,fields){
 			res.send({result:"comment"});
 			console.log("underComment uploaded successfully!!")
