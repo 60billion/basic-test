@@ -117,7 +117,7 @@ app.post('/undercomment',verify,function(req,res){
 	var sql = "select nickname,profileimg from user where username = ?; "
 	conn.query(sql,username,function(err,rows,fields){
 		console.log("underrow :"+rows[0])
-		var nickname = rows[0].nickanme;
+		var nickname = rows[0].nickname;
 		console.log(nickname)
 		var profileimg = rows[0].profileimg;
 		console.log(profileimg)
