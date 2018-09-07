@@ -138,7 +138,7 @@ app.post('/inundercomment',verify,function(req,res){
 	var comment = req.body.comment;
 	var sql = "select nickname,profileimg from user where username = ?; "
 	conn.query(sql,username,function(err,rows,fields){
-		var nickname = rows[0].nickanme;
+		var nickname = rows[0].nickname;
 		var profileimg = rows[0].profileimg;
 		var sql1 = "insert into `underComment`(`reviewId`,`underComment`,`nickname`,`profileimg`,`comment`) values(?,?,?,?,?);";
 		var params = [reviewId,underComment,nickname,profileimg,comment];
