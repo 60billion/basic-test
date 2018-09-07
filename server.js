@@ -50,11 +50,96 @@ var upload = multer({
     })
 });
 
+// CREATE TABLE `comment` (
+// 	`reviewId` INT NOT NULL,
+// 	`nickname` VARCHAR(50) NOT NULL,
+// 	`profileimg` VARCHAR(300) NOT NULL,
+// 	`comment` VARCHAR(500) NOT NULL,
+// 	`underComment` INT NOT NULL AUTO_INCREMENT
+// 	PRIMARY KEY(`underComment`)
+// 	);
+
+// CREATE TABLE `underComment` (
+//  `reviewId` INT NOT NULL,
+// 	`underComment` INT NOT NULL,
+// 	`nickname` VARCHAR(50) NOT NULL,
+// 	`profileimg` VARCHAR(300) NOT NULL,
+// 	`comment` VARCHAR(500) NOT NULL,
+// 	);
+
+//댓글정보받아오기
+app.post('/getcomments',function(req,res){
+	var reviewId = req.body.reviewId;
+	var sql = "select * from comment where reviewId = ?;";
+	conn.query(sql,reviewId,function(err,rowsTop,fields){
+		if(rowsTop == null){
+			res.send({noComments:"noComments"})
+			return;
+		}
+		var sql1 = "select * from underComment where reviewId =?";
+		conn.query(sql1, reviewId, function(err,rowsUnder,fields){
+			var comments = {
+				topComments:rowsTop,
+				underComments:rowsUnder
+			}
+			res.send({result:comments})
+		})
+	})
+})
+
 //댓글받아서 데이터베이스에 올리는 기능
 app.post('/comment',verify,function(req,res){
-	var comment = req.body.comment
-	console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~"+comment);
-	res.send({result:"comment"})
+	var comment = req.body.comment;
+	var username = req.code.username;
+	var reviewId = req.body.reviewId;
+	var sql = 'select nickname,profileimg from user where username = ?'
+	conn.query(sql,username,function(err,rows,fields){
+		var nickname = rows[0].nickname;
+		var profileimg = rows[0].profileimg;
+		var sql1 = 'insert into `comment`(`reviewId`,`nickname`,`profileimg`,`comment`) values(?,?,?,?);'
+		var params = [reviewId, nickname, profileimg, comment];
+		conn.query(sql1,params,function(err,rows,fields){
+			res.send({result:"comment"});
+			console.log("comment uploaded successfully!!");
+		})
+	})
+})
+//undercomment 댓글받아서 데이터베이스에 올리는 기능
+app.post('/undercomment',verify,function(req,res){
+	var username = req.code.username;
+	var reviewId = req.body.reviewId;
+	var underComment = req.body.underComment;
+	var comment = req.body.comment;
+	var sql = "select nickname,profileimg from user where username = ?; "
+	conn.query(sql,username,function(err,rows,fields){
+		var nickname = rows[0].nickanme;
+		var profileimg = rows[0].profileimg;
+		var sql1 = "insert into `underComment`(`reviewId`,`underComment`,`nickname`,`profileimg`,`comment`) values(?,?,?,?,?);";
+		var params = [reviewId,underComment,comment,nickname,profileimg];
+		conn.query(sql1,params,function(err,rows,fields){
+			res.send({result:"comment"});
+			console.log("underComment uploaded successfully!!")
+		})
+	})
+})
+
+//inundercomment 댓글받아서 데이터베이스에 올리는 기능
+app.post('/inundercomment',verify,function(req,res){
+	var username = req.code.username;
+	var reviewId = req.body.reviewId;
+	var underComment = req.body.underComment;
+	var comment = req.body.comment;
+	var sql = "select nickname,profileimg from user where username = ?; "
+	conn.query(sql,username,function(err,rows,fields){
+		var nickname = rows[0].nickanme;
+		var profileimg = rows[0].profileimg;
+		var sql1 = "insert into `underComment`(`reviewId`,`underComment`,`nickname`,`profileimg`,`comment`) values(?,?,?,?,?);";
+		var params = [reviewId,underComment,comment,nickname,profileimg];
+		conn.query(sql1,params,function(err,rows,fields){
+			res.send({result:"comment"});
+			console.log("underComment uploaded successfully!!")
+		})
+	})
 })
 
 
@@ -298,8 +383,9 @@ app.post('/getall',verify,function(req,res){
 //				`username`  varchar(50) NOT NULL ,
 //				`password`  varchar(500) NOT NULL ,
 //				`key`  varchar(500) NOT NULL ,
-//				`profileimg`  varchar(250) NOT NULL,
-//				`review` varchar(250)
+//				`profileimg`  varchar(250) NOT NULL default "s3에 디폴드 사진링크",
+//				`review` varchar(250),
+//				`nickname` varchar(50) not null
 //				PRIMARY KEY (`id`)
 //				);
 app.post('/register',function(req,res){
