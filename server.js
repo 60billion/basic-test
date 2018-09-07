@@ -250,16 +250,18 @@ app.post('/profileMain',verify,function(req,res){
 				}
 			}
 			
-			var sql2 = "select profileimg from user where username = ?"
+			var sql2 = "select profileimg,nickname from user where username = ?"
 			conn.query(sql2,username,function(err,rows){
 				var profileList = {
 					even:even,
 					odd:odd,
-					profileimg:rows[0].profileimg
+					profileimg:rows[0].profileimg,
+					nickname:rows[0].nickname
 				}
 				console.log(profileList.even);
 				console.log(profileList.odd);
 				console.log(profileList.profileimg)
+				console.log(profileList.nickname)
 				res.send({
 					result:profileList
 				})
@@ -291,6 +293,7 @@ app.post('/getall',verify,function(req,res){
 //				);
 app.post('/register',function(req,res){
 			var username = req.body.username;
+			var nickname = req.body.nickname;
 			var password = req.body.password;
 			var sql = "select username from user;"
 			var checkDuplicate = "";
@@ -304,8 +307,8 @@ app.post('/register',function(req,res){
 					res.send({result:"duplicated"});
 				}else{
 					hasher({password:password},function(err,pass,salt,hash){
-							var sql2 = 'insert into user (`username`,`password`,`key`) values(?,?,?);';
-							var params = [username,hash,salt];
+							var sql2 = 'insert into user (`username`,`password`,`key`,`nickname`) values(?,?,?,?);';
+							var params = [username,hash,salt,nickname];
 							conn.query(sql2,params,function(err,rows,fields){
 									console.log("success to register")
 									res.send({result:"registered"});
