@@ -72,7 +72,7 @@ app.post('/getcomments',function(req,res){
 	var reviewId = req.body.reviewId;
 	var sql = "select * from comment where reviewId = ?;";
 	conn.query(sql,reviewId,function(err,rowsTop,fields){
-		if(rowsTop == null){
+		if(rowsTop[0].comment == null){
 			res.send({noComments:"noComments"})
 			return;
 		}
