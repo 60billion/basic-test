@@ -230,12 +230,23 @@ app.post('/profileMain',verify,function(req,res){
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
 		if(rows[0].review == null){
-			res.send("noData")
+			var sql2 = "select profileimg,nickname from user where username = ?"
+			conn.query(sql2,username,function(err,rows){
+				var profileList = {
+					profileimg:rows[0].profileimg,
+					nickname:rows[0].nickname
+				}
+				console.log(profileList.profileimg)
+				console.log(profileList.nickname)
+				res.send({
+					result:profileList
+				})
+			})
 			return;
 		}
-			var reviewsId = rows[0].review.split(",")
-			reviewsId.pop();
-			console.log(reviewsId)
+		var reviewsId = rows[0].review.split(",")
+		reviewsId.pop();
+		console.log(reviewsId)
 		
 		
 		var sql1 = `select * from review where id in (${reviewsId})`;
