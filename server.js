@@ -70,9 +70,13 @@ var upload = multer({
 //댓글삭제하기
 app.post('/deletecomment',verify, function(req,res){
 	var username = req.code.username;
+	console.log(username);
 	var username1 = req.body.useranem;
+	console.log(username1)
 	var underComment = req.body.underComment;
+	console.log(underComment);
 	if(username == username1){
+		console.log("matching")
 		var sql = `update comment set profileimg = ?, nickname= ?, comment =? where underComment = ? ;`
 		var profileimg = "https://s3.ap-northeast-2.amazonaws.com/allrvw/defautl_img/profile_gray_img.png";
 		var nickname = "이름없음"
@@ -83,6 +87,7 @@ app.post('/deletecomment',verify, function(req,res){
 			res.send({result:"success"});
 		})
 	}else{
+		console.log("noMatching");
 		res.send({noOnner:"noOwner"})
 	}
 
