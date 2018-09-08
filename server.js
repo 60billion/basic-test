@@ -71,7 +71,7 @@ var upload = multer({
 app.post('/deletecomment',verify, function(req,res){
 	var username = req.code.username;
 	console.log(username);
-	var username1 = req.body.useranem;
+	var username1 = req.body.username;
 	console.log(username1)
 	var underComment = req.body.underComment;
 	console.log(underComment);
@@ -88,7 +88,7 @@ app.post('/deletecomment',verify, function(req,res){
 		})
 	}else{
 		console.log("noMatching");
-		res.send({noOnner:"noOwner"})
+		res.send({noOwner:"noOwner"})
 	}
 
 })
@@ -96,7 +96,7 @@ app.post('/deletecomment',verify, function(req,res){
 //하위댓글삭제하기
 app.post('/deleteundercomment',verify, function(req,res){
 	var username = req.code.username;
-	var username1 = req.body.useranem;
+	var username1 = req.body.username;
 	var id = req.body.id;
 	if(username == username1){
 		var sql = `update underComment set profileimg = ? , nickname = ? , comment = ? where id = ? ;`
@@ -109,7 +109,7 @@ app.post('/deleteundercomment',verify, function(req,res){
 			res.send({result:"success"});
 		})
 	}else{
-		res.send({noOnner:"noOwner"})
+		res.send({noOwner:"noOwner"})
 	}
 })
 
