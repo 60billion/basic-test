@@ -67,6 +67,47 @@ var upload = multer({
 // 	`comment` VARCHAR(500) NOT NULL,
 // 	);
 
+//댓글삭제하기
+app.post('/deletecomment',verify, function(req,res){
+	var username = req.code.username;
+	var username1 = req.body.useranem;
+	var underComment = req.body.underComment;
+	if(username == username1){
+		var sql = `update comment set profileimg = ?, nickname= ?, comment =? where underComment = ? ;`
+		var profileimg = "https://s3.ap-northeast-2.amazonaws.com/allrvw/defautl_img/profile_gray_img.png";
+		var nickname = "이름없음"
+		var comment = "삭제된 댓글입니다."
+		var params = [profileimg,nickname,comment,underComment];
+		conn.query(sql,params,function(err,rows,fields){
+			console.log("deleted comment updated!");
+			res.send({result:"success"});
+		})
+	}else{
+		res.send({noOnner:"noOwner"})
+	}
+
+})
+
+//하위댓글삭제하기
+app.post('/deleteundercomment',verify, function(req,res){
+	var username = req.code.username;
+	var username1 = req.body.useranem;
+	var id = req.body.id;
+	if(username == username1){
+		var sql = `update underComment set profileimg = ? , nickname = ? , comment = ? where id = ? ;`
+		var profileimg = "https://s3.ap-northeast-2.amazonaws.com/allrvw/defautl_img/profile_gray_img.png";
+		var nickname = "이름없음"
+		var comment = "삭제된 댓글입니다."
+		var params = [profileimg,nickname,comment,id];
+		conn.query(sql,params,function(err,rows,fields){
+			console.log("deleted underComment updated!");
+			res.send({result:"success"});
+		})
+	}else{
+		res.send({noOnner:"noOwner"})
+	}
+})
+
 //댓글정보받아오기
 app.post('/getcomments',function(req,res){
 	var reviewId = req.body.reviewId;
