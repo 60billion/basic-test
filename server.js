@@ -83,6 +83,7 @@ app.post('/getcomments',function(req,res){
 				underComments:rowsUnder
 			}
 			res.send({result:comments})
+			//여기부터는 댓글카운터 업데이트하는 내용
 			var sql2 = `select reviewId from comment where reviewId = ${reviewId}`
 			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
 			var sql4 = `update review set cocount = ? where id = ?`
@@ -110,11 +111,12 @@ app.post('/comment',verify,function(req,res){
 	conn.query(sql,username,function(err,rows,fields){
 		var nickname = rows[0].nickname;
 		var profileimg = rows[0].profileimg;
-		var sql1 = 'insert into `comment`(`reviewId`,`nickname`,`profileimg`,`comment`) values(?,?,?,?);'
-		var params = [reviewId, nickname, profileimg, comment];
+		var sql1 = 'insert into `comment`(`reviewId`,`nickname`,`profileimg`,`comment`,`username`) values(?,?,?,?,?);'
+		var params = [reviewId, nickname, profileimg, comment, username];
 		conn.query(sql1,params,function(err,rows,fields){
 			res.send({result:"comment"});
 			console.log("comment uploaded successfully!!");
+			//여기부터는 댓글카운터 업데이트하는 내용
 			var sql2 = `select reviewId from comment where reviewId = ${reviewId}`
 			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
 			var sql4 = `update review set cocount = ? where id = ?`
@@ -135,25 +137,19 @@ app.post('/comment',verify,function(req,res){
 //undercomment 댓글받아서 데이터베이스에 올리는 기능
 app.post('/undercomment',verify,function(req,res){
 	var username = req.code.username;
-	console.log(username)
 	var reviewId = req.body.reviewId;
-	console.log(reviewId)
 	var underComment = req.body.underComment;
-	console.log(underComment);
 	var comment = req.body.comment;
-	console.log(comment)
 	var sql = "select nickname,profileimg from user where username = ?; "
 	conn.query(sql,username,function(err,rows,fields){
-		console.log("underrow :"+rows[0])
 		var nickname = rows[0].nickname;
-		console.log(nickname)
 		var profileimg = rows[0].profileimg;
-		console.log(profileimg)
-		var sql1 = "insert into `underComment`(`reviewId`,`underComment`,`nickname`,`profileimg`,`comment`) values(?,?,?,?,?);";
-		var params = [reviewId,underComment,nickname,profileimg,comment];
+		var sql1 = "insert into `underComment`(`reviewId`,`underComment`,`nickname`,`profileimg`,`comment`,`username`) values(?,?,?,?,?,?);";
+		var params = [reviewId,underComment,nickname,profileimg,comment,username];
 		conn.query(sql1,params,function(err,rows,fields){
 			res.send({result:"comment"});
 			console.log("underComment uploaded successfully!!"+rows)
+			//여기부터는 댓글카운터 업데이트하는 내용
 			var sql2 = `select reviewId from comment where reviewId = ${reviewId}`
 			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
 			var sql4 = `update review set cocount = ? where id = ?`
@@ -175,25 +171,19 @@ app.post('/undercomment',verify,function(req,res){
 //inundercomment 댓글받아서 데이터베이스에 올리는 기능
 app.post('/inundercomment',verify,function(req,res){
 	var username = req.code.username;
-	console.log(username)
 	var reviewId = req.body.reviewId;
-	console.log(reviewId)
 	var underComment = req.body.underComment;
-	console.log(underComment);
 	var comment = req.body.comment;
-	console.log(comment)
 	var sql = "select nickname,profileimg from user where username = ?; "
 	conn.query(sql,username,function(err,rows,fields){
-		console.log("underrow :"+rows[0])
 		var nickname = rows[0].nickname;
-		console.log(nickname)
 		var profileimg = rows[0].profileimg;
-		console.log(profileimg)
-		var sql1 = "insert into `underComment`(`reviewId`,`underComment`,`nickname`,`profileimg`,`comment`) values(?,?,?,?,?);";
-		var params = [reviewId,underComment,nickname,profileimg,comment];
+		var sql1 = "insert into `underComment`(`reviewId`,`underComment`,`nickname`,`profileimg`,`comment`,`username`) values(?,?,?,?,?,?);";
+		var params = [reviewId,underComment,nickname,profileimg,comment,username];
 		conn.query(sql1,params,function(err,rows,fields){
 			res.send({result:"comment"});
 			console.log("inunderComment uploaded successfully!!"+rows)
+			//여기부터는 댓글카운터 업데이트하는 내용
 			var sql2 = `select reviewId from comment where reviewId = ${reviewId}`
 			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
 			var sql4 = `update review set cocount = ? where id = ?`
