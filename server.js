@@ -88,8 +88,14 @@ app.post('/getcomments',function(req,res){
 			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
 			var sql4 = `update review set cocount = ? where id = ?`
 			conn.query(sql2,function(err,rows,fields){
+				if(rows.length == undefined){
+					var count1 = 0;
+				}
 				var count1 = rows.length;
 				conn.query(sql3,function(err,rows,fields){
+					if(rows.length == undefined){
+						count2 = 0;
+					}
 					var count2 = rows.length;
 					var total = count1 + count2;
 					var realtotal = String(total)
@@ -121,8 +127,14 @@ app.post('/comment',verify,function(req,res){
 			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
 			var sql4 = `update review set cocount = ? where id = ?`
 			conn.query(sql2,function(err,rows,fields){
+				if(rows.length == undefined){
+					var count1 = 0;
+				}
 				var count1 = rows.length;
 				conn.query(sql3,function(err,rows,fields){
+					if(rows.length == undefined){
+						count2 = 0;
+					}
 					var count2 = rows.length;
 					var total = count1 + count2;
 					var realtotal = String(total)
@@ -154,8 +166,14 @@ app.post('/undercomment',verify,function(req,res){
 			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
 			var sql4 = `update review set cocount = ? where id = ?`
 			conn.query(sql2,function(err,rows,fields){
+				if(rows.length == undefined){
+					var count1 = 0;
+				}
 				var count1 = rows.length;
 				conn.query(sql3,function(err,rows,fields){
+					if(rows.length == undefined){
+						count2 = 0;
+					}
 					var count2 = rows.length;
 					var total = count1 + count2;
 					var realtotal = String(total)
@@ -188,8 +206,14 @@ app.post('/inundercomment',verify,function(req,res){
 			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
 			var sql4 = `update review set cocount = ? where id = ?`
 			conn.query(sql2,function(err,rows,fields){
+				if(rows.length == undefined){
+					var count1 = 0;
+				}
 				var count1 = rows.length;
 				conn.query(sql3,function(err,rows,fields){
+					if(rows.length == undefined){
+						count2 = 0;
+					}
 					var count2 = rows.length;
 					var total = count1 + count2;
 					var realtotal = String(total)
