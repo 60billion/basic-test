@@ -229,39 +229,6 @@ app.post('/undercomment',verify,function(req,res){
 	})
 })
 
-//inundercomment 댓글받아서 데이터베이스에 올리는 기능
-app.post('/inundercomment',verify,function(req,res){
-	var username = req.code.username;
-	var reviewId = req.body.reviewId;
-	var underComment = req.body.underComment;
-	var comment = req.body.comment;
-	var sql = "select nickname,profileimg from user where username = ?; "
-	conn.query(sql,username,function(err,rows,fields){
-		var nickname = rows[0].nickname;
-		var profileimg = rows[0].profileimg;
-		var sql1 = "insert into `underComment`(`reviewId`,`underComment`,`nickname`,`profileimg`,`comment`,`username`) values(?,?,?,?,?,?);";
-		var params = [reviewId,underComment,nickname,profileimg,comment,username];
-		conn.query(sql1,params,function(err,rows,fields){
-			res.send({result:"comment"});
-			console.log("inunderComment uploaded successfully!!"+rows)
-			//여기부터는 댓글카운터 업데이트하는 내용
-			var sql2 = `select reviewId from comment where reviewId = ${reviewId}`
-			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
-			var sql4 = `update review set cocount = ? where id = ?`
-			conn.query(sql2,function(err,rows,fields){
-				var count1 = rows.length;
-				conn.query(sql3,function(err,rows,fields){
-					var count2 = rows.length;
-					var total = count1 + count2;
-					var realtotal = String(total)
-					conn.query(sql4,[realtotal,reviewId],function(err,rows,fields){
-
-					})
-				})
-			})
-		})
-	})
-})
 
 
 
