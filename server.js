@@ -67,6 +67,19 @@ var upload = multer({
 // 	`comment` VARCHAR(500) NOT NULL,
 // 	);
 
+app.post('/intopage',verify,function(req,res){
+	var id = req.body.id;
+	var sql = "select * from review where id = ? ;"
+	conn.query(sql,id,function(err,rows,fields){
+		res.send({result:rows});
+	})
+})
+
+
+
+
+
+
 //댓글삭제하기
 app.post('/deletecomment',verify, function(req,res){
 	var username = req.code.username;
