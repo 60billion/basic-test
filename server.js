@@ -391,24 +391,30 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var fileName = req.files[0].originalname;
 	var title = req.body.title;
 	var review = req.body.review;
+	var category = req.body.category;
 	var productName = req.body.productName;
 	var productInfo = req.body.productInfo;
 	var username = req.code.username;
-	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`,`whoLike`,`productName`,`productInfo`) values(?,?,?,?,?,?,?,?);'
-	//var sql1 = `update user set review = JSON_ARRAY_APPEND(review,'$',?) where username=?;`
-	var sql1 = 'update user set review=concat(ifnull(review,""),?) where username=?;'
-	var params = [title,review,fileName,location,username,"",productName,productInfo]
-	var reviewDetail= `{"title":${title},"review":${review},"location":${location}}`//여기까지 객체로 넣는거는 성공, 다만 어펜드하면서 주입시켜야 활용이 가능할거같다. 이부분을 연구해야할거같다. 참고 update user set review=concat(ifnull(review,""),"{again:again}");
-	var param = [reviewDetail,username]
-	conn.query(sql,params,function(err,rows,field){
-			if(err) console.log("err!!!: " + err );
-			console.dir("first query: "+rows.insertId);
-			conn.query(sql1, [rows.insertId+",",username], function(err,rows,field){
-			 	if(err) console.log("err!!!: " + err );
-			 	console.log("success upload to database");
-			 	res.send({session:"session"});
-			 	})
-			})	
+	var sql0 = "select nickname,profileimg from user where username = ?;"
+	conn.query(sql0,username,function(err,rows,fields){
+		var nickname = rows[0].nickname;
+		var profileimg = rows[0].profileimg
+		var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`,`whoLike`,`category`,productName`,`productInfo`,`nickname`,`profileimg`) values(?,?,?,?,?,?,?,?,?,?,?);'
+		//var sql1 = `update user set review = JSON_ARRAY_APPEND(review,'$',?) where username=?;`
+		var sql1 = 'update user set review=concat(ifnull(review,""),?) where username=?;'
+		var params = [title,review,fileName,location,username,"",category,productName,productInfo,nickname,profileimg]
+		
+		conn.query(sql,params,function(err,rows,field){
+				if(err) console.log("err!!!: " + err );
+				console.dir("first query: "+rows.insertId);
+				conn.query(sql1, [rows.insertId+",",username], function(err,rows,field){
+					if(err) console.log("err!!!: " + err );
+					console.log("success upload to database");
+					res.send({session:"session"});
+					})
+				})	
+	})
+	
 });
 
 app.post('/profileMain',verify,function(req,res){
@@ -473,8 +479,6 @@ app.post('/profileMain',verify,function(req,res){
 app.post('/getall',verify,function(req,res){
 			var sql = 'select * from review';
 			conn.query(sql,function(err,rows,fields){
-				if(err)console.log('couldn\'t get data from review table : ' + err)
-					console.log(req.code)
 					res.send({
 						reviews:rows
 					})		
