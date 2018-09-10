@@ -399,7 +399,7 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	conn.query(sql0,username,function(err,rows,fields){
 		var nickname = rows[0].nickname;
 		var profileimg = rows[0].profileimg
-		var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`,`whoLike`,`category`,productName`,`productInfo`,`nickname`,`profileimg`) values(?,?,?,?,?,?,?,?,?,?,?);'
+		var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`,`whoLike`,`category`,`productName`,`productInfo`,`nickname`,`profileimg`) values(?,?,?,?,?,?,?,?,?,?,?);'
 		//var sql1 = `update user set review = JSON_ARRAY_APPEND(review,'$',?) where username=?;`
 		var sql1 = 'update user set review=concat(ifnull(review,""),?) where username=?;'
 		var params = [title,review,fileName,location,username,"",category,productName,productInfo,nickname,profileimg]
