@@ -67,6 +67,8 @@ var upload = multer({
 // 	`comment` VARCHAR(500) NOT NULL,
 // 	);
 
+
+//경험클릭화면
 app.post('/intopage',verify,function(req,res){
 	var id = req.body.id;
 	var sql = "select * from review where id = ? ;"
