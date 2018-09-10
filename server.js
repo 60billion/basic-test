@@ -391,11 +391,13 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var fileName = req.files[0].originalname;
 	var title = req.body.title;
 	var review = req.body.review;
+	var productName = req.body.productName;
+	var productInfo = req.body.productInfo;
 	var username = req.code.username;
-	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`,`whoLike`) values(?,?,?,?,?,?);'
+	var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`,`whoLike`,`productName`,`productInfo`) values(?,?,?,?,?,?,?,?);'
 	//var sql1 = `update user set review = JSON_ARRAY_APPEND(review,'$',?) where username=?;`
 	var sql1 = 'update user set review=concat(ifnull(review,""),?) where username=?;'
-	var params = [title,review,fileName,location,username,""]
+	var params = [title,review,fileName,location,username,"",productName,productInfo]
 	var reviewDetail= `{"title":${title},"review":${review},"location":${location}}`//여기까지 객체로 넣는거는 성공, 다만 어펜드하면서 주입시켜야 활용이 가능할거같다. 이부분을 연구해야할거같다. 참고 update user set review=concat(ifnull(review,""),"{again:again}");
 	var param = [reviewDetail,username]
 	conn.query(sql,params,function(err,rows,field){
