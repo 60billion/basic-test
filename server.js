@@ -67,6 +67,8 @@ var upload = multer({
 // 	`comment` VARCHAR(500) NOT NULL,
 // 	);
 
+
+//라우터 /gethots부분에 사용되는 함수
 function compare(a,b){
 	var f = parseInt(a.count)
 	var s = parseInt(b.count)
@@ -86,7 +88,9 @@ app.post('/gethots',verify,function(req,res){
 		var array = [];
 		var second = [];
 		var third = [];
-		var first = rows[0]
+		var a = rows[0];
+		var first = [];
+		first.push(a);
 		console.log(JSON.stringify(first))
 		for(var i=1; i<6; i++){
 			array.push(rows[i]);
