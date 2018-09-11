@@ -67,10 +67,22 @@ var upload = multer({
 // 	`comment` VARCHAR(500) NOT NULL,
 // 	);
 
+function compare(a,b){
+	var f = parseInt(a.count)
+	var s = parseInt(b.count)
+	if(f<s){
+		return -1;
+	}else if(f>s){
+		return 1;
+	}
+	return 0;
+}
+
 //인기 리뷰 보내기
 app.post('/gethots',verify,function(req,res){
 	var sql = 'select id,count from review;';
 	conn.query(sql,function(err,rows,fields){
+		rows.sort(compare);
 		console.log("getHotttest: "+JSON.stringify(rows));
 	})
 })
