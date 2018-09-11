@@ -80,7 +80,7 @@ function compare(a,b){
 
 //인기 리뷰 보내기
 app.post('/gethots',verify,function(req,res){
-	var sql = 'select * from review;';
+	var sql = 'select id,count from review;';
 	conn.query(sql,function(err,rows,fields){
 		rows.sort(compare);
 		var array = [];
