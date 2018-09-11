@@ -84,11 +84,26 @@ app.post('/gethots',verify,function(req,res){
 	conn.query(sql,function(err,rows,fields){
 		rows.sort(compare);
 		var array = [];
-		for(var i=0; i<3; i++){
+		var second = [];
+		var third = [];
+		var first = rows[0]
+		for(var i=1; i<6; i++){
 			array.push(rows[i]);
 		}
-		res.send({hotList:array});
-		console.log("getHotttest: "+JSON.stringify(array));
+		for(var b in array){
+			if(b%2==0){
+				second.push(array[b]);
+			}else{
+				third.push(array[b])
+			}
+			
+		}
+		res.send({
+			first:first,
+			second:second,
+			third:third
+		});
+		// console.log("getHotttest: "+JSON.stringify(array));
 	})
 })
 
