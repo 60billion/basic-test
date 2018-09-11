@@ -92,11 +92,12 @@ app.post('/deletecomment',verify, function(req,res){
 	console.log(underComment);
 	if(username == username1){
 		console.log("matching")
-		var sql = `update comment set profileimg = ?, nickname= ?, comment =? where underComment = ? ;`
+		var sql = `update comment set profileimg = ?, nickname= ?, comment =?, del = ? where underComment = ? ;`
 		var profileimg = "https://s3.ap-northeast-2.amazonaws.com/allrvw/defautl_img/profile_gray_img.png";
 		var nickname = "이름없음"
 		var comment = "삭제된 댓글입니다."
-		var params = [profileimg,nickname,comment,underComment];
+		var del = "0"
+		var params = [profileimg,nickname,comment,del,underComment];
 		conn.query(sql,params,function(err,rows,fields){
 			console.log("deleted comment updated!");
 			res.send({result:"success"});
@@ -114,11 +115,12 @@ app.post('/deleteundercomment',verify, function(req,res){
 	var username1 = req.body.username;
 	var id = req.body.id;
 	if(username == username1){
-		var sql = `update underComment set profileimg = ? , nickname = ? , comment = ? where id = ? ;`
+		var sql = `update underComment set profileimg = ? , nickname = ? , comment = ?, del = ?  where id = ? ;`
 		var profileimg = "https://s3.ap-northeast-2.amazonaws.com/allrvw/defautl_img/profile_gray_img.png";
 		var nickname = "이름없음"
 		var comment = "삭제된 댓글입니다."
-		var params = [profileimg,nickname,comment,id];
+		var del = "0"
+		var params = [profileimg,nickname,comment,del,id];
 		conn.query(sql,params,function(err,rows,fields){
 			console.log("deleted underComment updated!");
 			res.send({result:"success"});
@@ -136,8 +138,8 @@ app.post('/getcomments',function(req,res){
 		if(rowsTop[0] == null){
 			res.send({noComments:"noComments"})
 			//여기부터는 댓글카운터 업데이트하는 내용
-			var sql2 = `select reviewId from comment where reviewId = ${reviewId}`
-			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
+			var sql2 = `select reviewId from comment where reviewId = ${reviewId} and where del =1;`
+			var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and where del =1;`
 			var sql4 = `update review set cocount = ? where id = ?`
 			conn.query(sql2,function(err,rows,fields){
 				var count1 = rows.length;
@@ -160,8 +162,8 @@ app.post('/getcomments',function(req,res){
 			}
 			res.send({result:comments})
 			//여기부터는 댓글카운터 업데이트하는 내용
-			var sql2 = `select reviewId from comment where reviewId = ${reviewId}`
-			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
+			var sql2 = `select reviewId from comment where reviewId = ${reviewId} and where del =1;`
+			var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and where del =1;`
 			var sql4 = `update review set cocount = ? where id = ?`
 			conn.query(sql2,function(err,rows,fields){
 				var count1 = rows.length;
@@ -193,8 +195,8 @@ app.post('/comment',verify,function(req,res){
 			res.send({result:"comment"});
 			console.log("comment uploaded successfully!!");
 			//여기부터는 댓글카운터 업데이트하는 내용
-			var sql2 = `select reviewId from comment where reviewId = ${reviewId}`
-			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
+			var sql2 = `select reviewId from comment where reviewId = ${reviewId} and where del =1;`
+			var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and where del =1;`
 			var sql4 = `update review set cocount = ? where id = ?`
 			conn.query(sql2,function(err,rows,fields){
 				var count1 = rows.length;
@@ -226,8 +228,8 @@ app.post('/undercomment',verify,function(req,res){
 			res.send({result:"comment"});
 			console.log("underComment uploaded successfully!!"+rows)
 			//여기부터는 댓글카운터 업데이트하는 내용
-			var sql2 = `select reviewId from comment where reviewId = ${reviewId}`
-			var sql3 = `select reviewId from underComment where reviewId = ${reviewId}`
+			var sql2 = `select reviewId from comment where reviewId = ${reviewId} and where del =1;`
+			var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and where del =1;`
 			var sql4 = `update review set cocount = ? where id = ?`
 			conn.query(sql2,function(err,rows,fields){
 				var count1 = rows.length;
