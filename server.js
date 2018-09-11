@@ -84,7 +84,8 @@ app.post('/gethots',verify,function(req,res){
 	conn.query(sql,function(err,rows,fields){
 		rows.sort(compare);
 		var array = [];
-		for(var i; i<3; i++){
+		for(var i=0; i<3; i++){
+			console.log("11 : "+ JSON.stringify(rows[i]))
 			array.push(rows[i]);
 		}
 		console.log("getHotttest: "+JSON.stringify(array));
