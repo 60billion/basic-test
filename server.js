@@ -71,8 +71,7 @@ var upload = multer({
 app.post('/gethots',verify,function(req,res){
 	var sql = 'select id,count from review;';
 	conn.query(sql,function(err,rows,fields){
-		console.log("getHotttest: "+rows[0]);
-		console.dir("getHotttest: "+rows[0]);
+		console.log("getHotttest: "+JSON.stringify(rows));
 	})
 })
 
