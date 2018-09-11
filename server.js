@@ -481,13 +481,28 @@ app.post('/profileMain',verify,function(req,res){
 })
 
 app.post('/getall',verify,function(req,res){
-			var sql = 'select * from review';
-			conn.query(sql,function(err,rows,fields){
+	//여기부터는 댓글카운터 업데이트하는 내용
+	var sql2 = `select reviewId from comment where reviewId = ${reviewId} and del =1;`
+	var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and del =1;`
+	var sql4 = `update review set cocount = ? where id = ?`
+	conn.query(sql2,function(err,rows,fields){
+		var count1 = rows.length;
+		conn.query(sql3,function(err,rows,fields){
+			var count2 = rows.length;
+			var total = count1 + count2;
+			var realtotal = String(total)
+			conn.query(sql4,[realtotal,reviewId],function(err,rows,fields){
+				var sql = 'select * from review';
+				conn.query(sql,function(err,rows,fields){
 					res.send({
 						reviews:rows
 					})		
 				})
+			})
 		})
+	})
+			
+})
 
 //REATE TABLE `user` (
 //			    `id`  tinyint NOT NULL  AUTO_INCREMENT,
