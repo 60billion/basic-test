@@ -102,10 +102,14 @@ app.post('/gethots',verify,function(req,res){
 		}
 		console.log(JSON.stringify(second))
 		console.log(JSON.stringify(third))
-		res.send({
+
+		var result = {
 			first:first,
 			second:second,
 			third:third
+		}
+		res.send({
+			result
 		});
 		//console.log("getHotttest: "+JSON.stringify(array));
 	})
