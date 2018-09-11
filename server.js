@@ -67,6 +67,13 @@ var upload = multer({
 // 	`comment` VARCHAR(500) NOT NULL,
 // 	);
 
+//인기 리뷰 보내기
+app.post('/gethots',verify,function(req,res){
+	var sql = 'select id,count from review;';
+	conn.query(sql,function(err,rows,fields){
+		console.log("getHotttest: "+rows);
+	})
+})
 
 //경험클릭화면
 app.post('/intopage',verify,function(req,res){
@@ -76,10 +83,6 @@ app.post('/intopage',verify,function(req,res){
 		res.send({result:rows});
 	})
 })
-
-
-
-
 
 
 //댓글삭제하기
