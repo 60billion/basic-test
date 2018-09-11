@@ -71,9 +71,9 @@ function compare(a,b){
 	var f = parseInt(a.count)
 	var s = parseInt(b.count)
 	if(f<s){
-		return -1;
-	}else if(f>s){
 		return 1;
+	}else if(f>s){
+		return -1;
 	}
 	return 0;
 }
