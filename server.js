@@ -138,8 +138,8 @@ app.post('/getcomments',function(req,res){
 		if(rowsTop[0] == null){
 			res.send({noComments:"noComments"})
 			//여기부터는 댓글카운터 업데이트하는 내용
-			var sql2 = `select reviewId from comment where reviewId = ${reviewId} and where del =1;`
-			var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and where del =1;`
+			var sql2 = `select reviewId from comment where reviewId = ${reviewId} and del =1;`
+			var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and del =1;`
 			var sql4 = `update review set cocount = ? where id = ?`
 			conn.query(sql2,function(err,rows,fields){
 				var count1 = rows.length;
@@ -162,8 +162,8 @@ app.post('/getcomments',function(req,res){
 			}
 			res.send({result:comments})
 			//여기부터는 댓글카운터 업데이트하는 내용
-			var sql2 = `select reviewId from comment where reviewId = ${reviewId} and where del =1;`
-			var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and where del =1;`
+			var sql2 = `select reviewId from comment where reviewId = ${reviewId} and del =1;`
+			var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and del =1;`
 			var sql4 = `update review set cocount = ? where id = ?`
 			conn.query(sql2,function(err,rows,fields){
 				var count1 = rows.length;
@@ -195,8 +195,8 @@ app.post('/comment',verify,function(req,res){
 			res.send({result:"comment"});
 			console.log("comment uploaded successfully!!");
 			//여기부터는 댓글카운터 업데이트하는 내용
-			var sql2 = `select reviewId from comment where reviewId = ${reviewId} and where del =1;`
-			var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and where del =1;`
+			var sql2 = `select reviewId from comment where reviewId = ${reviewId} and del =1;`
+			var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and del =1;`
 			var sql4 = `update review set cocount = ? where id = ?`
 			conn.query(sql2,function(err,rows,fields){
 				var count1 = rows.length;
@@ -228,8 +228,8 @@ app.post('/undercomment',verify,function(req,res){
 			res.send({result:"comment"});
 			console.log("underComment uploaded successfully!!"+rows)
 			//여기부터는 댓글카운터 업데이트하는 내용
-			var sql2 = `select reviewId from comment where reviewId = ${reviewId} and where del =1;`
-			var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and where del =1;`
+			var sql2 = `select reviewId from comment where reviewId = ${reviewId} and del =1;`
+			var sql3 = `select reviewId from underComment where reviewId = ${reviewId} and del =1;`
 			var sql4 = `update review set cocount = ? where id = ?`
 			conn.query(sql2,function(err,rows,fields){
 				var count1 = rows.length;
