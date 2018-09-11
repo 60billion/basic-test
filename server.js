@@ -83,6 +83,7 @@ app.post('/gethots',verify,function(req,res){
 	var sql = 'select id,count from review;';
 	conn.query(sql,function(err,rows,fields){
 		rows.sort(compare);
+		rows.slice(0,2);
 		console.log("getHotttest: "+JSON.stringify(rows));
 	})
 })
