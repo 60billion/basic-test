@@ -80,14 +80,14 @@ function compare(a,b){
 
 //인기 리뷰 보내기
 app.post('/gethots',verify,function(req,res){
-	var sql = 'select id,count from review;';
+	var sql = 'select * from review;';
 	conn.query(sql,function(err,rows,fields){
 		rows.sort(compare);
 		var array = [];
-		for(var i=0; i<3; i++){
-			console.log("11 : "+ JSON.stringify(rows[i]))
+		for(var i=0; i<6; i++){
 			array.push(rows[i]);
 		}
+		res.send({hotList:array});
 		console.log("getHotttest: "+JSON.stringify(array));
 	})
 })
