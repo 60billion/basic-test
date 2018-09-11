@@ -489,6 +489,10 @@ app.post('/getall',verify,function(req,res){
 				})
 		})
 
+app.post('/verifyLogin',verify,function(req,res){
+	res.send({reviews:"haveToken"})
+})
+
 //REATE TABLE `user` (
 //			    `id`  tinyint NOT NULL  AUTO_INCREMENT,
 //				`username`  varchar(50) NOT NULL ,
