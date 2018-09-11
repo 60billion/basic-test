@@ -84,7 +84,7 @@ app.post('/gethots',verify,function(req,res){
 	conn.query(sql,function(err,rows,fields){
 		rows.sort(compare);
 		var array = [];
-		for(var i=0; i<6; i++){
+		for(var i=0; i<3; i++){
 			array.push(rows[i]);
 		}
 		res.send({hotList:array});
