@@ -87,9 +87,11 @@ app.post('/gethots',verify,function(req,res){
 		var second = [];
 		var third = [];
 		var first = rows[0]
+		console.log(JSON.stringify(first))
 		for(var i=1; i<6; i++){
 			array.push(rows[i]);
 		}
+		console.log(JSON.stringify(array))
 		for(var b in array){
 			if(b%2==0){
 				second.push(array[b]);
@@ -98,12 +100,14 @@ app.post('/gethots',verify,function(req,res){
 			}
 			
 		}
+		console.log(JSON.stringify(second))
+		console.log(JSON.stringify(third))
 		res.send({
 			first:first,
 			second:second,
 			third:third
 		});
-		// console.log("getHotttest: "+JSON.stringify(array));
+		//console.log("getHotttest: "+JSON.stringify(array));
 	})
 })
 
