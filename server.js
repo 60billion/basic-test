@@ -95,7 +95,7 @@ app.post('/gethots',verify,function(req,res){
 		var first = [];
 		first.push(a);
 		console.log(JSON.stringify(first))
-		for(var i=1; i<6; i++){
+		for(var i=1; i<13; i++){
 			array.push(rows[i]);
 		}
 		console.log(JSON.stringify(array))
