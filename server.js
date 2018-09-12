@@ -80,7 +80,8 @@ function compare(a,b){
 	return 0;
 }
 
-//인기 리뷰 보내기
+//인기 리뷰 보내기: 로우를 가지고와서  count 숫자의 크기에따라서 sort를하였다.
+//sort한 로우에 첫번째는 인기화면 상단에 두었고, 나머지를 홀짝으로 구분하여 나눠서 프런트로 응답하였다.
 app.post('/gethots',verify,function(req,res){
 	var sql = 'select * from review;';
 	conn.query(sql,function(err,rows,fields){
