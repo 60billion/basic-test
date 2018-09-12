@@ -543,7 +543,7 @@ app.post('/getall',verify,function(req,res){
 				reviews.push(rows[i]);
 			}
 		}else{
-			var reAddReview = addReview - check;
+			var reAddReview = addReview + check;
 			for(var k=0; k<reAddReview; k++){
 				reviews.push(rows[k]);
 			}
