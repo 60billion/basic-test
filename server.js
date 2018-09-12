@@ -557,7 +557,7 @@ app.post('/getall',verify,function(req,res){
 	var sql = 'select * from review';
 	conn.query(sql,function(err,rows,fields){
 		res.send({
-			reviews:reviews
+			reviews:rows
 		})		
 	})
 })
