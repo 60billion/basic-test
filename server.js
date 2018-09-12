@@ -84,6 +84,9 @@ function compare(a,b){
 app.post('/gethots',verify,function(req,res){
 	var sql = 'select * from review;';
 	conn.query(sql,function(err,rows,fields){
+		if(rows[0]==null){
+			return;
+		}
 		rows.sort(compare);
 		var array = [];
 		var second = [];
@@ -528,13 +531,20 @@ app.post('/profileMain',verify,function(req,res){
 })
 
 app.post('/getall',verify,function(req,res){
-			var sql = 'select * from review';
-			conn.query(sql,function(err,rows,fields){
-					res.send({
-						reviews:rows
-					})		
-				})
+	var addReview = req.body.addReview;
+	console.log("Check refresh! :"+addReview)
+	var sql = 'select * from review';
+	conn.query(sql,function(err,rows,fields){
+		rows.reverse();
+		var reviews =[];
+		for(var i=0; i<addReview; i++){
+			reviews.push(rows[i]);
+		}
+			res.send({
+				reviews:reviews
+			})		
 		})
+})
 
 app.post('/verifyLogin',verify,function(req,res){
 	res.send({reviews:"haveToken"})
