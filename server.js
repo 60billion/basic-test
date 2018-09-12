@@ -530,24 +530,32 @@ app.post('/profileMain',verify,function(req,res){
 	})
 })
 
+// app.post('/getall',verify,function(req,res){
+// 	var addReview = req.body.addReview;
+// 	console.log("Check refresh! :"+addReview)
+// 	var sql = 'select * from review';
+// 	conn.query(sql,function(err,rows,fields){
+// 		rows.reverse();
+// 		var reviews =[];
+// 		var check = rows.length-addReview
+// 		if(check>0){
+// 			for(var i=0; i<addReview; i++){
+// 				reviews.push(rows[i]);
+// 			}
+// 		}else{
+// 			var reAddReview = addReview + check;
+// 			for(var k=0; k<reAddReview; k++){
+// 				reviews.push(rows[k]);
+// 			}
+// 		}
+// 		res.send({
+// 			reviews:reviews
+// 		})		
+// 	})
+// })
 app.post('/getall',verify,function(req,res){
-	var addReview = req.body.addReview;
-	console.log("Check refresh! :"+addReview)
 	var sql = 'select * from review';
 	conn.query(sql,function(err,rows,fields){
-		rows.reverse();
-		var reviews =[];
-		var check = rows.length-addReview
-		if(check>0){
-			for(var i=0; i<addReview; i++){
-				reviews.push(rows[i]);
-			}
-		}else{
-			var reAddReview = addReview + check;
-			for(var k=0; k<reAddReview; k++){
-				reviews.push(rows[k]);
-			}
-		}
 		res.send({
 			reviews:reviews
 		})		
