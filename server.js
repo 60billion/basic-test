@@ -333,7 +333,7 @@ app.post('/wantit',verify,function(req,res){
 					var params = [stringfy,id];
 					conn.query(sql1_1,params,function(err,rows,field){
 						console.log("compeleted decresase : " +rows)
-						res.send({result:"decrease"})
+						
 						sql1_2 = "select likeReview from user where username = ?"
 						conn.query(sql1_2,username,function(err,rows,field){
 							var realId = String(id);
@@ -352,6 +352,7 @@ app.post('/wantit',verify,function(req,res){
 							var params = [stringfy1, username]
 							conn.query(sql1_3,params,function(err,rows,field){
 								console.log("uploaded likeReview numbers(decrease) : "+rows)
+								res.send({result:"decrease"})
 							})
 
 						})
@@ -369,11 +370,12 @@ app.post('/wantit',verify,function(req,res){
 			var params = [username+",",id];
 			conn.query(sql2_1,params,function(err,rows,field){
 				console.log("compeleted username increase : " +rows)
-				res.send({result:"increase"})
+				
 				var sql2_2 = 'update user set likeReview=concat(ifnull(likeReview,""),?) where username=?;'
 				var params = [id+",",username];
 				conn.query(sql2_2,params,function(err,rows,field){
 					console.log("uploaded review id to user table: " +rows);
+					res.send({result:"increase"})
 				})
 			})
 		})
