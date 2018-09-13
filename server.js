@@ -57,15 +57,39 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res){
 	var username = req.code.username;
 	var nickname = req.body.nickname;
 	var params = [profileimg,nickname,username]
+	var checkNickname = nickname.split("");//공백닉네임 체크
 	console.log("check profileimg file : "+profileimg);
-	var sql = "update user set profileimg=?, nickanme=? where username = ?;"
-	conn.query(sql,params,function(err,rows,fields){
-		if(err) {
-			console.log("profile info uploade err : "+err);
-		}else{
-			res.send("success");
+
+	var sql1 = `select nickname from user where username != ${username};`
+	//닉네임 중복체크
+	conn.query(sql1,function(err,rows,fields){
+		for( i in rows){
+			if(nickname == rows[i]){
+				res.send("duplicated")
+				return;
+			}
 		}
+		//닉네임12자이하체크
+		if(nickname.length>13){
+			res.send("nicknameErr");
+			return;
+		}else if(nickname,length==0||checkNickname[0]==" "){      //공백닉네임 체크
+			res.send("nicknameErr");
+			return;
+		}
+		var sql = "update user set profileimg=?, nickanme=? where username = ?;"
+		conn.query(sql,params,function(err,rows,fields){
+			if(err) {
+				console.log("profile info uploade err : "+err);
+			}else{
+				res.send("success");
+			}
+		})
 	})
+	
+	
+	
+	
 })
 
 // CREATE TABLE `comment` (
