@@ -56,12 +56,13 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 	console.log('uploaded '+req.files[0].fieldname+" files"+req.files[0].originalname);
 	var profileimg = req.files[0].location;
 	var username = req.code.username;
+	console.log(username);
 	var nickname = req.body.nickname;
 	var params = [profileimg,nickname,username]
 	var checkNickname = nickname.split("");//공백닉네임 체크
 	console.log("check profileimg file : "+profileimg);
 
-	var sql1 = `select nickname from user where username != ${username};`
+	var sql1 = `select nickname from user where username != "${username}";`
 	//닉네임 중복체크
 	conn.query(sql1,function(err,rows,fields){
 		if(err) console.log(err+"!!!");
