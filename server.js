@@ -78,7 +78,7 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 			res.send("nicknameErr");
 			return;
 		}
-		var sql = "update user set profileimg=?, nickanme=? where username = ?;"
+		var sql = "update user set profileimg=?, nickname=? where username = ?;"
 		conn.query(sql,params,function(err,rows,fields){
 			if(err) {
 				console.log("profile info uploade err : "+err);
