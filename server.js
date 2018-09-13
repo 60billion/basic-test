@@ -65,13 +65,17 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 	//닉네임 중복체크
 	conn.query(sql1,function(err,rows,fields){
 		for( i in rows){
+			console.log("checking duplicate");
+			console.log(rows[i].nickname)
 			if(nickname == rows[i].nickname){
 				res.send("duplicated")
 				return;
 			}
 		}
+		
 		var sql = "update user set profileimg=?, nickname=? where username = ?;"
 		conn.query(sql,params,function(err,rows,fields){
+			console.log("done duplicate");
 			//닉네임12자이하체크
 			if(nickname.length>13){
 				res.send("nicknameErr");
@@ -79,8 +83,7 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 			}else if(nickname.length==0||checkNickname[0]==" "){      //공백닉네임 체크
 				res.send("nicknameErr");
 				return;
-			}
-			if(err) {
+			}else if(err) {
 				console.log("profile info uploade err : "+err);
 			}else{
 				res.send("success");
