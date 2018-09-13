@@ -60,8 +60,8 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 	console.log(username);
 	var nickname = req.body.nickname;
 	console.log(nickname)
-	var params = [profileimg,nickname,username]
-	var checkNickname = nickname.split("");//공백닉네임 체크
+	var params = [profileimg,newNickname,username]
+	var checkNickname = newNickname.split("");//공백닉네임 체크
 	console.log("check profileimg file : "+profileimg);
 
 	var sql1 = `select nickname from user where username != "${username}";`
@@ -81,10 +81,10 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 		conn.query(sql,params,function(err,rows,fields){
 			console.log("done duplicate");
 			//닉네임12자이하체크
-			if(nickname.length>13){
+			if(newNickname.length>13){
 				res.send("nicknameErr");
 				return;
-			}else if(nickname.length==0||checkNickname[0]==" "){      //공백닉네임 체크
+			}else if(newNickname.length==0||checkNickname[0]==" "){      //공백닉네임 체크
 				res.send("nicknameErr");
 				return;
 			}else if(err) {
