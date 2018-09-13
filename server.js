@@ -64,6 +64,7 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 	var sql1 = `select nickname from user where username != ${username};`
 	//닉네임 중복체크
 	conn.query(sql1,function(err,rows,fields){
+		if(err) console.log(err+"!!!");
 		for( i in rows){
 			console.log("checking duplicate");
 			console.log(rows[i].nickname)
