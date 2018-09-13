@@ -64,7 +64,7 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res){
 	//닉네임 중복체크
 	conn.query(sql1,function(err,rows,fields){
 		for( i in rows){
-			if(nickname == rows[i]){
+			if(nickname == rows[i].nickname){
 				res.send("duplicated")
 				return;
 			}
@@ -73,7 +73,7 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res){
 		if(nickname.length>13){
 			res.send("nicknameErr");
 			return;
-		}else if(nickname,length==0||checkNickname[0]==" "){      //공백닉네임 체크
+		}else if(nickname.length==0||checkNickname[0]==" "){      //공백닉네임 체크
 			res.send("nicknameErr");
 			return;
 		}
@@ -518,8 +518,7 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 
 app.post('/profileMain',verify,function(req,res){
 	var username = req.code.username;
-	var sql="select review from user where username=?"
-	console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
 		if(rows[0].review == null){
@@ -530,8 +529,7 @@ app.post('/profileMain',verify,function(req,res){
 					nickname:rows[0].nickname,
 					username:username
 				}
-				console.log(profileList.profileimg)
-				console.log(profileList.nickname)
+
 				res.send({
 					noReviewResult:profileList
 				})
@@ -540,8 +538,7 @@ app.post('/profileMain',verify,function(req,res){
 		}
 		var reviewsId = rows[0].review.split(",")
 		reviewsId.pop();
-		console.log(reviewsId)
-		
+
 		
 		var sql1 = `select * from review where id in (${reviewsId})`;
 		conn.query(sql1,function(err,rows,field){
@@ -563,11 +560,7 @@ app.post('/profileMain',verify,function(req,res){
 					profileimg:rows[0].profileimg,
 					nickname:rows[0].nickname,
 					username:username
-				}
-				console.log(profileList.even);
-				console.log(profileList.odd);
-				console.log(profileList.profileimg)
-				console.log(profileList.nickname)
+				})
 				res.send({
 					result:profileList
 				})
