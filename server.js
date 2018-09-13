@@ -518,6 +518,7 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 
 app.post('/profileMain',verify,function(req,res){
 	var username = req.code.username;
+	var sql="select review from user where username=?"
 
 	conn.query(sql,username,function(err,rows,field){
 		if(err) console.log("first: "+err)
@@ -538,7 +539,8 @@ app.post('/profileMain',verify,function(req,res){
 		}
 		var reviewsId = rows[0].review.split(",")
 		reviewsId.pop();
-
+		console.log(reviewsId)
+		
 		
 		var sql1 = `select * from review where id in (${reviewsId})`;
 		conn.query(sql1,function(err,rows,field){
@@ -561,6 +563,7 @@ app.post('/profileMain',verify,function(req,res){
 					nickname:rows[0].nickname,
 					username:username
 				}
+
 				res.send({
 					result:profileList
 				})
