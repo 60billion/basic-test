@@ -50,6 +50,24 @@ var upload = multer({
     })
 });
 
+
+
+app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res){
+	var profileimg = req.files[0].location;
+	var username = req.code.username;
+	var nickname = req.body.nickname;
+	var params = [profileimg,nickname,username]
+	console.log("check profileimg file : "+profileimg);
+	var sql = "update user set profileimg=?, nickanme=? where username = ?;"
+	conn.query(sql,params,function(err,rows,fields){
+		if(err) {
+			console.log("profile info uploade err : "+err);
+		}else{
+			res.send("success");
+		}
+	})
+})
+
 // CREATE TABLE `comment` (
 // 	`reviewId` INT NOT NULL,
 // 	`nickname` VARCHAR(50) NOT NULL,
