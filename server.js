@@ -70,16 +70,16 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 				return;
 			}
 		}
-		//닉네임12자이하체크
-		if(nickname.length>13){
-			res.send("nicknameErr");
-			return;
-		}else if(nickname.length==0||checkNickname[0]==" "){      //공백닉네임 체크
-			res.send("nicknameErr");
-			return;
-		}
 		var sql = "update user set profileimg=?, nickname=? where username = ?;"
 		conn.query(sql,params,function(err,rows,fields){
+			//닉네임12자이하체크
+			if(nickname.length>13){
+				res.send("nicknameErr");
+				return;
+			}else if(nickname.length==0||checkNickname[0]==" "){      //공백닉네임 체크
+				res.send("nicknameErr");
+				return;
+			}
 			if(err) {
 				console.log("profile info uploade err : "+err);
 			}else{
