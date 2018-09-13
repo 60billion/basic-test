@@ -560,7 +560,7 @@ app.post('/profileMain',verify,function(req,res){
 					profileimg:rows[0].profileimg,
 					nickname:rows[0].nickname,
 					username:username
-				})
+				}
 				res.send({
 					result:profileList
 				})
