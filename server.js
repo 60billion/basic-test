@@ -52,7 +52,9 @@ var upload = multer({
 
 
 
-app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res){
+app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,next){
+	console.log("checkFile : "+files);
+	console.log("checkFileJSON : "+JSON.stringify(files));
 	var profileimg = req.files[0].location;
 	var username = req.code.username;
 	var nickname = req.body.nickname;
@@ -458,8 +460,7 @@ app.post('/showLikes',verify,function(req,res){
 				even:even,
 				odd:odd
 			}
-			console.log(likeList.even);
-			console.log(likeList.odd);
+			
 			res.send({
 				result:likeList
 			})
