@@ -485,7 +485,8 @@ app.post('/profileMain',verify,function(req,res){
 			conn.query(sql2,username,function(err,rows){
 				var profileList = {
 					profileimg:rows[0].profileimg,
-					nickname:rows[0].nickname
+					nickname:rows[0].nickname,
+					username:username
 				}
 				console.log(profileList.profileimg)
 				console.log(profileList.nickname)
@@ -518,7 +519,8 @@ app.post('/profileMain',verify,function(req,res){
 					even:even,
 					odd:odd,
 					profileimg:rows[0].profileimg,
-					nickname:rows[0].nickname
+					nickname:rows[0].nickname,
+					username:username
 				}
 				console.log(profileList.even);
 				console.log(profileList.odd);
