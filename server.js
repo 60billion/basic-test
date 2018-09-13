@@ -56,8 +56,10 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 	console.log('uploaded '+req.files[0].fieldname+" files"+req.files[0].originalname);
 	var profileimg = req.files[0].location;
 	var username = req.code.username;
+	var newNickname = req.body.newnickname;
 	console.log(username);
 	var nickname = req.body.nickname;
+	console.log(nickname)
 	var params = [profileimg,nickname,username]
 	var checkNickname = nickname.split("");//공백닉네임 체크
 	console.log("check profileimg file : "+profileimg);
@@ -69,7 +71,7 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 		for( i in rows){
 			console.log("checking duplicate");
 			console.log(rows[i].nickname)
-			if(nickname == rows[i].nickname){
+			if(newNickname == rows[i].nickname){
 				res.send("duplicated")
 				return;
 			}
