@@ -53,8 +53,7 @@ var upload = multer({
 
 
 app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,next){
-	console.log("checkFile : "+files);
-	console.log("checkFileJSON : "+JSON.stringify(files));
+	console.log('uploaded '+req.files[0].fieldname+" files"+req.files[0].originalname);
 	var profileimg = req.files[0].location;
 	var username = req.code.username;
 	var nickname = req.body.nickname;
@@ -688,7 +687,7 @@ app.post('/login',function(req,res){
 function verify (req,res,next){
 	const token = req.body.tokens;
 	console.log(token+"!!!!");
-	if(!token){
+	if(!token || token == undefined){
 		return res.send({
 					login:"login"
 				});
