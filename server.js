@@ -78,6 +78,9 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 				conn.query(sql1,function(err,rows,fields){
 					if(err) console.log(err);
 					console.log("checking!!!! : "+rows[0].review);
+					var reviews = rows[0].review.split(",");
+					reviews.pop();
+					console.log("checking~~~~~: " +reviews);
 				})
 			}else if(notice == "changed"){
 				var sql = "update user set profileimg=?,nickname=? where username = ?;"
