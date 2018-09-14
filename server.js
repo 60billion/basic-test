@@ -675,26 +675,16 @@ app.post('/profileMain',verify,function(req,res){
 // })
 app.post('/getall',verify,function(req,res){
 	var sql = 'select * from review';
-	var sql1 = `update review set tempReview = short;`
+	//var sql1 = `update review set tempReview = short;`
 	conn.query(sql1,function(err,rows,fields){
-		conn.query(sql,function(err,rows,fields){
-			res.send({
-				reviews:rows
-			})
-		})		
-	})
-})
-app.post('/getalls',verify,function(req,res){
-	var sql = 'select * from review';
-	var sql1 = `update review set tempReview = short;`
-	//conn.query(sql1,function(err,rows,fields){
-		conn.query(sql,function(err,rows,fields){
+	//	conn.query(sql,function(err,rows,fields){
 			res.send({
 				reviews:rows
 			})
 		})		
 	//})
 })
+
 
 app.post('/verifyLogin',verify,function(req,res){
 	res.send({reviews:"haveToken"})
