@@ -563,24 +563,30 @@ app.post('/moreReview',verify,function(req,res){
 	var sql =`select review,short,tempReview from review where id = ${reviewId};`;
 	conn.query(sql,function(err,rows,fields){
 		var review = rows[0].review;
+		console.log(review);
 		var short = rows[0].short;
+		console.log(short);
 		var tempReview = rows[0].tempReview;
+		console.log(tempReview);
 		if(tempReview = ""){
 			var sql0 = `update review set tempReview = "${review}" where id =${reviewId}`;
 			conn.query(sql0,function(err,rows,fields){
 				if(err) console.log(err);
+				console.log("same");
 				res.send("result");
 			})
 		}else if(tempReview==short){
 			var sql1 = `update review set tempReview = "${review}" where id =${reviewId}`;
 			conn.query(sql1,function(err,rows,fields){
 				if(err) console.log(err);
+				console.log("long");
 				res.send("result");
 			})
 		}else if(tempReview==review){
 			var sql2 = `update review set tempReview = "${short}" where id =${reviewId}`;
 			conn.query(sql2,function(err,rows,fields){
 				if(err) console.log(err);
+				console.log("short")
 				res.send("result");
 			})
 		}
