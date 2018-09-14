@@ -540,10 +540,10 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	conn.query(sql0,username,function(err,rows,fields){
 		var nickname = rows[0].nickname;
 		var profileimg = rows[0].profileimg
-		var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`,`whoLike`,`category`,`productName`,`productInfo`,`nickname`,`profileimg`,`short`) values(?,?,?,?,?,?,?,?,?,?,?,?);'
+		var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`,`whoLike`,`category`,`productName`,`productInfo`,`nickname`,`profileimg`,`short`,`tempReview`) values(?,?,?,?,?,?,?,?,?,?,?,?,?);'
 		//var sql1 = `update user set review = JSON_ARRAY_APPEND(review,'$',?) where username=?;`
 		var sql1 = 'update user set review=concat(ifnull(review,""),?) where username=?;'
-		var params = [title,review,fileName,location,username,"",category,productName,productInfo,nickname,profileimg,short]
+		var params = [title,review,fileName,location,username,"",category,productName,productInfo,nickname,profileimg,short,short]
 		
 		conn.query(sql,params,function(err,rows,field){
 				if(err) console.log("err!!!: " + err );
@@ -557,6 +557,35 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	})
 	
 });
+
+app.post('/moreReview',verify,function(req,res){
+	var reviewId = req.body.reviewId;
+	var sql =`select review,short,tempReview from review where id = ${reviewId};`;
+	conn.query(sql,function(err,rows,fields){
+		var review = rows[0].review;
+		var short = rows[0].short;
+		var tempReview = rows[0].tempReview;
+		if(tempReview = ""){
+			var sql0 = `update review set tempReview = "${review}" where id =${reviewId}`;
+			conn.query(sql0,function(err,rows,fields){
+				if(err) console.log(err);
+				res.send("result");
+			})
+		}else if(tempReview==short){
+			var sql1 = `update review set tempReview = "${review}" where id =${reviewId}`;
+			conn.query(sql1,function(err,rows,fields){
+				if(err) console.log(err);
+				res.send("result");
+			})
+		}else if(tempReview==review){
+			var sql2 = `update review set tempReview = "${short}" where id =${reviewId}`;
+			conn.query(sql2,function(err,rows,fields){
+				if(err) console.log(err);
+				res.send("result");
+			})
+		}
+	})
+})
 
 app.post('/profileMain',verify,function(req,res){
 	var username = req.code.username;
@@ -640,9 +669,12 @@ app.post('/profileMain',verify,function(req,res){
 // })
 app.post('/getall',verify,function(req,res){
 	var sql = 'select * from review';
-	conn.query(sql,function(err,rows,fields){
-		res.send({
-			reviews:rows
+	var sql1 = `update review set tempReview = short;`
+	conn.query(sql1,function(err,rows,fields){
+		conn.query(sql,function(err,rows,fields){
+			res.send({
+				reviews:rows
+			})
 		})		
 	})
 })
