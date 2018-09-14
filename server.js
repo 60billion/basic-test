@@ -534,7 +534,7 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var category = req.body.category;
 	var productName = req.body.productName;
 	var productInfo = req.body.productInfo;
-	var short = req.bosy.short;
+	var short = req.body.short;
 	var username = req.code.username;
 	var sql0 = "select nickname,profileimg from user where username = ?;"
 	conn.query(sql0,username,function(err,rows,fields){
