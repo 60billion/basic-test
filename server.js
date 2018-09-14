@@ -568,7 +568,7 @@ app.post('/moreReview',verify,function(req,res){
 		console.log(short);
 		var tempReview = rows[0].tempReview;
 		console.log(tempReview);
-		if(tempReview = ""){
+		if(tempReview == ""){
 			var sql0 = `update review set tempReview = ${review} where id =${reviewId}`;
 			conn.query(sql0,function(err,rows,fields){
 				if(err) console.log(err);
