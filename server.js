@@ -76,15 +76,31 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 				var params = [newNickname,username];
 				var sql1 = `select review from user where username = "${username}";`;
 				conn.query(sql1,function(err,rows,fields){
-					if(err) console.log(err);
-					console.log("checking!!!! : "+rows[0].review);
+					if(err) console.log(err);				
 					var reviews = rows[0].review.split(",");
 					reviews.pop();
-					console.log("checking~~~~~: " +reviews[0]);
+					var sql2 = `update review set nickname=${newNickname} where id in(${reviews});`
+					conn.query(sql2,function(err,rows,fields){
+						if(err) console.log(err)
+						console.log("updated nickname only!")
+					})
+
 				})
 			}else if(notice == "changed"){
-				var sql = "update user set profileimg=?,nickname=? where username = ?;"
-				var params = [profileimg,newNickname,username]
+				var sql = "update user set profileimg=?,nickname=? where username = ?;";
+				var params = [profileimg,newNickname,username];
+				var sql1 = `select review from user where username = "${username}";`;
+				conn.query(sql1,function(err,rows,fields){
+					if(err) console.log(err);				
+					var reviews = rows[0].review.split(",");
+					reviews.pop();
+					var sql2 = `update review set nickname="${newNickname}", profileimg="${profileimg}" where id in(${reviews});`
+					conn.query(sql2,function(err,rows,fields){
+						if(err) console.log(err)
+						console.log("updated nickname and profileimg!!")
+					})
+
+				})
 			}
 			
 			conn.query(sql,params,function(err,rows,fields){
