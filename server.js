@@ -573,21 +573,21 @@ app.post('/moreReview',verify,function(req,res){
 			conn.query(sql0,function(err,rows,fields){
 				if(err) console.log(err);
 				console.log("same");
-				res.send("result");
+				res.send({result:"result"});
 			})
 		}else if(tempReview.length==short.length){
 			var sql1 = `update review set tempReview = "${review}" where id =${reviewId}`;
 			conn.query(sql1,function(err,rows,fields){
 				if(err) console.log(err);
 				console.log("long");
-				res.send("result");
+				res.send({result:"result"});
 			})
 		}else if(tempReview.length==review.length){
 			var sql2 = `update review set tempReview = "${short}" where id =${reviewId}`;
 			conn.query(sql2,function(err,rows,fields){
 				if(err) console.log(err);
 				console.log("short")
-				res.send("result");
+				res.send({result:"result"});
 			})
 		}
 	})
