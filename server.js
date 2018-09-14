@@ -79,14 +79,17 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 				console.log("done duplicate");
 				//닉네임12자이하체크
 				if(newNickname.length>13){
+					console.log("1");
 					res.send("nicknameErr");
 					return;
 				}else if(newNickname.length==0||checkNickname[0]==" "){      //공백닉네임 체크
+					console.log("2");
 					res.send("nicknameErr");
 					return;
 				}else if(err) {
 					console.log("profile info uploade err : "+err);
 				}else{
+					console.log("success top");
 					res.send("success");
 				}
 			})
@@ -116,14 +119,17 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 				console.log("done duplicate");
 				//닉네임12자이하체크
 				if(newNickname.length>13){
+					console.log("1-1");
 					res.send("nicknameErr");
 					return;
 				}else if(newNickname.length==0||checkNickname[0]==" "){      //공백닉네임 체크
+					console.log("2-2");
 					res.send("nicknameErr");
 					return;
 				}else if(err) {
 					console.log("profile info uploade err : "+err);
 				}else{
+					console.log("success bottom");
 					res.send("success");
 				}
 			})
