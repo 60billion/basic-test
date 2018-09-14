@@ -54,46 +54,82 @@ var upload = multer({
 
 app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,next){
 	console.log('uploaded '+req.files[0].fieldname+" files"+req.files[0].originalname);
-	var profileimg = req.files[0].location;
-	var aws = req.body.aws;
-	console.log("profileimg : "+profileimg +"  ,  aws: "+aws)
-	var username = req.code.username;
-	var newNickname = req.body.newnickname;
-	console.log(username);
-	var params = [profileimg,newNickname,username]
-	var checkNickname = newNickname.split("");//공백닉네임 체크
-	console.log("check profileimg file : "+profileimg);
-
-	var sql1 = `select nickname from user where username != "${username}";`
-	//닉네임 중복체크
-	conn.query(sql1,function(err,rows,fields){
-		if(err) console.log(err+"!!!");
-		for( i in rows){
-			console.log("checking duplicate");
-			console.log(rows[i].nickname)
-			if(newNickname == rows[i].nickname){
-				res.send("duplicated")
-				return;
+	var notice = req.body.notice;
+	if(notice == "noChange"){
+		var profileimg = req.files[0].location;
+		var username = req.code.username;
+		var newNickname = req.body.newnickname;
+		var params = [newNickname,username]
+		var checkNickname = newNickname.split("");//공백닉네임 체크
+		var sql1 = `select nickname from user where username != "${username}";`
+		//닉네임 중복체크
+		conn.query(sql1,function(err,rows,fields){
+			if(err) console.log(err+"!!!");
+			for( i in rows){
+				console.log("checking duplicate");
+				console.log(rows[i].nickname)
+				if(newNickname == rows[i].nickname){
+					res.send("duplicated")
+					return;
+				}
 			}
-		}
-		
-		var sql = "update user set profileimg=?, nickname=? where username = ?;"
-		conn.query(sql,params,function(err,rows,fields){
-			console.log("done duplicate");
-			//닉네임12자이하체크
-			if(newNickname.length>13){
-				res.send("nicknameErr");
-				return;
-			}else if(newNickname.length==0||checkNickname[0]==" "){      //공백닉네임 체크
-				res.send("nicknameErr");
-				return;
-			}else if(err) {
-				console.log("profile info uploade err : "+err);
-			}else{
-				res.send("success");
-			}
+			
+			var sql = "update user set nickname=? where username = ?;"
+			conn.query(sql,params,function(err,rows,fields){
+				console.log("done duplicate");
+				//닉네임12자이하체크
+				if(newNickname.length>13){
+					res.send("nicknameErr");
+					return;
+				}else if(newNickname.length==0||checkNickname[0]==" "){      //공백닉네임 체크
+					res.send("nicknameErr");
+					return;
+				}else if(err) {
+					console.log("profile info uploade err : "+err);
+				}else{
+					res.send("success");
+				}
+			})
 		})
-	})
+
+	}else{
+		var profileimg = req.files[0].location;
+		var username = req.code.username;
+		var newNickname = req.body.newnickname;
+		var params = [profileimg,newNickname,username]
+		var checkNickname = newNickname.split("");//공백닉네임 체크
+		var sql1 = `select nickname from user where username != "${username}";`
+		//닉네임 중복체크
+		conn.query(sql1,function(err,rows,fields){
+			if(err) console.log(err+"!!!");
+			for( i in rows){
+				console.log("checking duplicate");
+				console.log(rows[i].nickname)
+				if(newNickname == rows[i].nickname){
+					res.send("duplicated")
+					return;
+				}
+			}
+			
+			var sql = "update user set profileimg=?, nickname=? where username = ?;"
+			conn.query(sql,params,function(err,rows,fields){
+				console.log("done duplicate");
+				//닉네임12자이하체크
+				if(newNickname.length>13){
+					res.send("nicknameErr");
+					return;
+				}else if(newNickname.length==0||checkNickname[0]==" "){      //공백닉네임 체크
+					res.send("nicknameErr");
+					return;
+				}else if(err) {
+					console.log("profile info uploade err : "+err);
+				}else{
+					res.send("success");
+				}
+			})
+		})
+	}
+
 	
 	
 	
