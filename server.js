@@ -79,7 +79,7 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 					if(err) console.log(err);				
 					var reviews = rows[0].review.split(",");
 					reviews.pop();
-					var sql2 = `update review set nickname=${newNickname} where id in(${reviews});`
+					var sql2 = `update review set nickname="${newNickname}" where id in(${reviews});`
 					conn.query(sql2,function(err,rows,fields){
 						if(err) console.log(err)
 						console.log("updated nickname only!")
