@@ -51,7 +51,7 @@ var upload = multer({
 });
 
 
-
+//프로필 업데이트
 app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,next){
 	console.log('uploaded '+req.files[0].fieldname+" files"+req.files[0].originalname);
 	var notice = req.body.notice;
@@ -72,8 +72,11 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 				}
 			}
 			if(notice == "noChange"){
+				//사진은 그대로이고 닉네임만  바뀌었을때 sql문을 작성 if문벗어나서 아래 퀴리에 적용 하고있음
 				var sql = "update user set nickname=? where username = ?;"
 				var params = [newNickname,username];
+
+				//닉네임 변경에 관해서 리뷰테이블 닉네임도 업데이트해주는 내용
 				var sql1 = `select review from user where username = "${username}";`;
 				conn.query(sql1,function(err,rows,fields){
 					if(err) console.log(err);				
@@ -87,8 +90,11 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 
 				})
 			}else if(notice == "changed"){
+				//사진이 바뀌었을때 sql문을 작성 if문벗어나서 아래 퀴리에 적용 하고있음
 				var sql = "update user set profileimg=?,nickname=? where username = ?;";
 				var params = [profileimg,newNickname,username];
+				
+				//닉네임,프로필 변경에 관해서 리뷰테이블 닉네임,프로필도 업데이트해주는 내용
 				var sql1 = `select review from user where username = "${username}";`;
 				conn.query(sql1,function(err,rows,fields){
 					if(err) console.log(err);				
@@ -105,12 +111,12 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 			
 			conn.query(sql,params,function(err,rows,fields){
 				console.log("done duplicate");
-				//닉네임12자이하체크
+				//닉네임 12자 이하 체크
 				if(newNickname.length>13){
 					console.log("1");
 					res.send("nicknameErr");
 					return;
-				}else if(newNickname.length==0||checkNickname[0]==" "){      //공백닉네임 체크
+				}else if(newNickname.length==0||checkNickname[0]==" "){//공백닉네임 체크
 					console.log("2");
 					res.send("nicknameErr");
 					return;
@@ -528,15 +534,16 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	var category = req.body.category;
 	var productName = req.body.productName;
 	var productInfo = req.body.productInfo;
+	var short = req.bosy.short;
 	var username = req.code.username;
 	var sql0 = "select nickname,profileimg from user where username = ?;"
 	conn.query(sql0,username,function(err,rows,fields){
 		var nickname = rows[0].nickname;
 		var profileimg = rows[0].profileimg
-		var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`,`whoLike`,`category`,`productName`,`productInfo`,`nickname`,`profileimg`) values(?,?,?,?,?,?,?,?,?,?,?);'
+		var sql = 'insert into `review` (`title`,`review`,`fileName`,`location`,`author`,`whoLike`,`category`,`productName`,`productInfo`,`nickname`,`profileimg`,`short`) values(?,?,?,?,?,?,?,?,?,?,?);'
 		//var sql1 = `update user set review = JSON_ARRAY_APPEND(review,'$',?) where username=?;`
 		var sql1 = 'update user set review=concat(ifnull(review,""),?) where username=?;'
-		var params = [title,review,fileName,location,username,"",category,productName,productInfo,nickname,profileimg]
+		var params = [title,review,fileName,location,username,"",category,productName,productInfo,nickname,profileimg,short]
 		
 		conn.query(sql,params,function(err,rows,field){
 				if(err) console.log("err!!!: " + err );
