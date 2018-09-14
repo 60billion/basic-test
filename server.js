@@ -568,7 +568,7 @@ app.post('/moreReview',verify,function(req,res){
 		console.log(short);
 		var tempReview = rows[0].tempReview;
 		console.log(tempReview);
-		if(tempReview == ""){
+		if(tempReview == undefined){
 			var sql0 = `update review set tempReview = "${review}" where id =${reviewId}`;
 			conn.query(sql0,function(err,rows,fields){
 				if(err) console.log(err);
@@ -683,6 +683,17 @@ app.post('/getall',verify,function(req,res){
 			})
 		})		
 	//})
+})
+app.post('/getalls',verify,function(req,res){
+	var sql = 'select * from review';
+	var sql1 = `update review set tempReview = short;`
+	conn.query(sql1,function(err,rows,fields){
+		conn.query(sql,function(err,rows,fields){
+			res.send({
+				reviews:rows
+			})
+		})		
+	})
 })
 
 app.post('/verifyLogin',verify,function(req,res){
