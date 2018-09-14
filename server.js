@@ -55,6 +55,10 @@ var upload = multer({
 app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,next){
 	console.log('uploaded '+req.files[0].fieldname+" files"+req.files[0].originalname);
 	var notice = req.body.notice;
+	console.log("chchchchchchch: " +notice);
+	var b = req.body.b;
+	var c = req.body.c;
+	console.log("shshshdhshshsh: " +b+"dfdfdfd: "+c);
 	var profileimg = req.files[0].location;
 	var username = req.code.username;
 	var newNickname = req.body.newnickname;
