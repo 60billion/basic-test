@@ -58,8 +58,6 @@ app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,n
 	var username = req.code.username;
 	var newNickname = req.body.newnickname;
 	console.log(username);
-	var nickname = req.body.nickname;
-	console.log(nickname)
 	var params = [profileimg,newNickname,username]
 	var checkNickname = newNickname.split("");//공백닉네임 체크
 	console.log("check profileimg file : "+profileimg);
