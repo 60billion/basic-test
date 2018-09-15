@@ -657,6 +657,7 @@ app.post('/profileMain',verify,function(req,res){
 })
 app.post('/profileMainWho',verify,function(req,res){
 	var username = req.body.username;
+	console.log(username);
 	var sql="select review from user where username=?"
 
 	conn.query(sql,username,function(err,rows,field){
