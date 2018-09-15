@@ -51,6 +51,8 @@ var upload = multer({
 });
 
 
+
+
 //프로필 업데이트
 app.post('/getprofileinfo',upload.array('reviewImage'),verify,function(req,res,next){
 	console.log('uploaded '+req.files[0].fieldname+" files"+req.files[0].originalname);
@@ -508,6 +510,44 @@ app.post('/showLikes',verify,function(req,res){
 	})
 
 })
+app.post('/showLikesWho',verify,function(req,res){
+	var sql = 'select likeReview from user where username = ?'
+	var username = req.body.username;
+	console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+	conn.query(sql,username,function(err,rows,field){
+		console.log("showLikes Check console : " + rows[0].likeReview);
+		if(rows[0].likeReview == null){
+			res.send("noData")
+			return;
+		}
+			var idList = rows[0].likeReview.split(",")
+			idList.pop();
+			console.log(idList)
+		
+		
+		var sql1 = `select * from review where id in (${idList})`;
+		conn.query(sql1,function(err,rows,field){
+			var even = [];
+			var odd = [];
+			for(i in rows){
+				if(i%2==0){
+					even.push(rows[i])
+				}else{
+					odd.push(rows[i])
+				}
+			}
+			var likeList = {
+				even:even,
+				odd:odd
+			}
+			
+			res.send({
+				result:likeList
+			})
+		}) 
+	})
+
+})
 
 
 //CREATE TABLE `review` (  
@@ -561,6 +601,62 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 
 app.post('/profileMain',verify,function(req,res){
 	var username = req.code.username;
+	var sql="select review from user where username=?"
+
+	conn.query(sql,username,function(err,rows,field){
+		if(err) console.log("first: "+err)
+		if(rows[0].review == null){
+			var sql2 = "select profileimg,nickname from user where username = ?"
+			conn.query(sql2,username,function(err,rows){
+				var profileList = {
+					profileimg:rows[0].profileimg,
+					nickname:rows[0].nickname,
+					username:username
+				}
+
+				res.send({
+					noReviewResult:profileList
+				})
+			})
+			return;
+		}
+		var reviewsId = rows[0].review.split(",")
+		reviewsId.pop();
+		console.log(reviewsId)
+		
+		
+		var sql1 = `select * from review where id in (${reviewsId})`;
+		conn.query(sql1,function(err,rows,field){
+			var even = [];
+			var odd = [];
+			for(i in rows){
+				if(i%2==0){
+					even.push(rows[i])
+				}else{
+					odd.push(rows[i])
+				}
+			}
+			
+			var sql2 = "select profileimg,nickname from user where username = ?"
+			conn.query(sql2,username,function(err,rows){
+				var profileList = {
+					even:even,
+					odd:odd,
+					profileimg:rows[0].profileimg,
+					nickname:rows[0].nickname,
+					username:username
+				}
+
+				res.send({
+					result:profileList
+				})
+			})
+		})
+
+	})
+})
+app.post('/profileMainWho',verify,function(req,res){
+	var username = req.body.username;
 	var sql="select review from user where username=?"
 
 	conn.query(sql,username,function(err,rows,field){
