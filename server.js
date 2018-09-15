@@ -558,40 +558,6 @@ app.post('/getReview',upload.array('reviewImage'),verify,function(req,res,next){
 	
 });
 
-app.post('/moreReview',verify,function(req,res){
-	var reviewId = req.body.reviewId;
-	var sql =`select review,short,tempReview from review where id = ${reviewId};`;
-	conn.query(sql,function(err,rows,fields){
-		var review = rows[0].review;
-		console.log(review);
-		var short = rows[0].short;
-		console.log(short);
-		var tempReview = rows[0].tempReview;
-		console.log(tempReview);
-		if(tempReview == undefined){
-			var sql0 = `update review set tempReview = "${review}" where id =${reviewId}`;
-			conn.query(sql0,function(err,rows,fields){
-				if(err) console.log(err);
-				console.log("same");
-				res.send({result:"result"});
-			})
-		}else if(tempReview.length==short.length){
-			var sql1 = `update review set tempReview = "${review}" where id =${reviewId}`;
-			conn.query(sql1,function(err,rows,fields){
-				if(err) console.log(err);
-				console.log("long");
-				res.send({result:"result"});
-			})
-		}else if(tempReview.length==review.length){
-			var sql2 = `update review set tempReview = "${short}" where id =${reviewId}`;
-			conn.query(sql2,function(err,rows,fields){
-				if(err) console.log(err);
-				console.log("short")
-				res.send({result:"result"});
-			})
-		}
-	})
-})
 
 app.post('/profileMain',verify,function(req,res){
 	var username = req.code.username;
@@ -650,29 +616,7 @@ app.post('/profileMain',verify,function(req,res){
 	})
 })
 
-// app.post('/getall',verify,function(req,res){
-// 	var addReview = req.body.addReview;
-// 	console.log("Check refresh! :"+addReview)
-// 	var sql = 'select * from review';
-// 	conn.query(sql,function(err,rows,fields){
-// 		rows.reverse();
-// 		var reviews =[];
-// 		var check = rows.length-addReview
-// 		if(check>0){
-// 			for(var i=0; i<addReview; i++){
-// 				reviews.push(rows[i]);
-// 			}
-// 		}else{
-// 			var reAddReview = addReview + check;
-// 			for(var k=0; k<reAddReview; k++){
-// 				reviews.push(rows[k]);
-// 			}
-// 		}
-// 		res.send({
-// 			reviews:reviews
-// 		})		
-// 	})
-// })
+
 app.post('/getall',verify,function(req,res){
 	var sql = 'select * from review';
 	//var sql1 = `update review set tempReview = short;`
