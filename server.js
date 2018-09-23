@@ -50,7 +50,7 @@ var upload = multer({
     })
 });
 
-app.post('/',function(req,res){
+app.get('/',function(req,res){
 	res.send('health test')
 })
 
