@@ -50,7 +50,9 @@ var upload = multer({
     })
 });
 
-
+app.post('/',function(req,res){
+	res.send('health test')
+})
 
 
 //프로필 업데이트
